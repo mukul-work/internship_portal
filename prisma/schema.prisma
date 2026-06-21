@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Admin {
+  id Int @id @default(autoincrement())
+  email String @unique
+  password String
+  name String
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+
+}
+
+model Student {
+  id Int @id @default(autoincrement())
+  name String
+  universityRollNo String @unique
+  email String
+  contact String
+  gender String
+  session String 
+  semester String
+  section String
+  internship Internship?
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+}
+
+model Internship {
+  id Int @id @default(autoincrement())
+  studentId Int @unique
+  sourceOfInternship String
+  stipend String
+  stipendAmount String?
+  ppo String
+  ppoProof String?
+  organisationName String
+  organisationAddress String
+  status String
+  completionProof String?
+  student Student @relation(fields: [studentId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAT DateTime @updatedAt
+}
