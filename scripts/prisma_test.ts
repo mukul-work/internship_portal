@@ -1,11 +1,13 @@
-import { prisma } from "../lib/prisma";
+import { prisma } from "@/lib/prisma";
 async function test() {
-  const st = await prisma.student.delete({
-    where: {
-      universityRollNo: "202401100200205",
+  const admin = await prisma.admin.create({
+    data: {
+      email: "admin@gmail.com",
+      password: "123",
+      name: "Admin",
     },
   });
-  console.log("Student deleted:", st);
+  console.log("Admin Created:", admin);
 }
 
 test()
