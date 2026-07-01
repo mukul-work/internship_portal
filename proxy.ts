@@ -9,7 +9,7 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         const { pathname } = req.nextUrl;
-        if (pathname.startsWith("/api/auth") || pathname === "/auth/login") {
+        if (pathname.startsWith("/api/auth") || pathname === "/auth/signin") {
           return true;
         }
 
