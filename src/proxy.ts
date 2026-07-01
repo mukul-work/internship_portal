@@ -2,7 +2,8 @@ import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 export default withAuth(
-  function proxy() {
+  function proxy(req) {
+    console.log("Proxy executed:", req.nextUrl.pathname);
     return NextResponse.next();
   },
   {
@@ -18,3 +19,7 @@ export default withAuth(
     },
   },
 );
+
+export const config = {
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+};
