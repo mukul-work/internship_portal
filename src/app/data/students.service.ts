@@ -1,10 +1,12 @@
 import { getStudentInternshipData } from "./students.dal";
 import { studentInternshipDTO } from "@/types/student-internship.dto";
+
 interface ServiceResponse<T> {
   success: boolean;
   message: string;
   data: T | null;
 }
+
 export async function fetchStudentInternshipData(): Promise<
   ServiceResponse<studentInternshipDTO[]>
 > {
@@ -18,7 +20,7 @@ export async function fetchStudentInternshipData(): Promise<
   } catch (err) {
     console.error("Error: ", err);
     return {
-      success: true,
+      success: false,
       message: "Failed to fetch student internship data",
       data: null,
     };

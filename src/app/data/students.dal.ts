@@ -1,13 +1,18 @@
 import { studentInternshipDTO } from "@/types/student-internship.dto";
+import { cookies } from "next/headers";
 
 export async function getStudentInternshipData(): Promise<
   studentInternshipDTO[]
 > {
-  const response = await fetch("/api/students");
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch Student Internship Data");
-  }
+  const cookieStore = await cookies();
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/students`,
+    {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    },
+  );
 
   return response.json();
 }
