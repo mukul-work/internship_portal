@@ -1,3 +1,5 @@
+import { DateTime } from "next-auth/providers/kakao";
+
 export interface InternshipDTO {
   internshipId: number;
   studentId: number;
@@ -5,8 +7,8 @@ export interface InternshipDTO {
   internshipType: string;
   role: string;
   duration: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   stipend: string;
   stipendAmount?: string;
   ppo: string;
@@ -23,10 +25,9 @@ export interface studentInternshipDTO {
   studentContact: string;
   studentEmail: string;
   studentGender: string;
-  studentInternship: string;
   studentSection: string;
   studentSemester: string;
   studentSession: string;
   studentUniversityRollNo: string;
-  internship: InternshipDTO[];
+  studentInternship?: InternshipDTO[];
 }
