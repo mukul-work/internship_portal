@@ -40,9 +40,9 @@ model Internship {
   duration            String
   startDate           String
   endDate             String
-  stipend             String
+  stipend             Boolean
   stipendAmount       String?
-  ppo                 String
+  ppo                 Boolean
   ppoProof            String?
   organisationName    String
   organisationAddress String
