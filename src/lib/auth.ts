@@ -13,6 +13,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials): Promise<any> {
         if (!credentials) {
+          console.log("Error fetching credentials");
           return null;
         }
 
@@ -25,7 +26,7 @@ export const authOptions: NextAuthOptions = {
         try {
           const admin = await prisma.admin.findUnique({
             where: {
-              email: email,
+              adminEmail: email,
             },
           });
           console.log("Admin: ", admin);
@@ -33,9 +34,14 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Email not found");
           }
 
-          const isPasswordCorrect = password === admin.password ? true : false;
+          const isPasswordCorrect =
+            password === admin.adminPassword ? true : false;
           if (isPasswordCorrect) {
-            return admin;
+            return {
+              id: admin.adminId,
+              email: admin.adminEmail,
+              name: admin.adminName,
+            };
           } else {
             throw new Error("Incorrect Password");
           }
