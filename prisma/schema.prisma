@@ -13,7 +13,7 @@ model Admin {
   password  String
   name      String
   createdAt DateTime @default(now())
-  updatedAT DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
 model Student {
@@ -28,7 +28,7 @@ model Student {
   section          String
   internship       Internship?
   createdAt        DateTime    @default(now())
-  updatedAT        DateTime    @updatedAt
+  updatedAt        DateTime    @updatedAt
 }
 
 model Internship {
@@ -50,5 +50,5 @@ model Internship {
   completionProof     String?
   student             Student  @relation(fields: [studentId], references: [id])
   createdAt           DateTime @default(now())
-  updatedAT           DateTime @updatedAt
+  updatedAt           DateTime @updatedAt
 }
