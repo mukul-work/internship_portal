@@ -11,4 +11,6 @@ export interface Student {
   semester: string;
   section: string;
   internship: Internship[];
+  createdAt: string;
+  updatedAt: string;
 }
