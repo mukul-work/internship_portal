@@ -14,7 +14,7 @@ export const GET = async (request: Request) => {
         studentSemester: true,
         studentSession: true,
         studentUniversityRollNo: true,
-        internship: {
+        studentInternships: {
           select: {
             internshipId: true,
             studentId: true,
