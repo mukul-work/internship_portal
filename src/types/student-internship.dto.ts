@@ -15,7 +15,6 @@ export interface InternshipDTO {
   organisationAddress: string;
   status: string;
   completionProof?: string;
-  student: string;
 }
 
 export interface studentInternshipDTO {
