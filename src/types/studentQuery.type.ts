@@ -5,17 +5,7 @@ export const studentQuerySchema = z.object({
   pageSize: z.string().optional(),
   order: z.enum(["asc", "desc"]).default("asc"),
   sort: z
-    .enum([
-      "name",
-      "universityRollNo",
-      "semester",
-      "section",
-      "session",
-      "duration",
-      "startDate",
-      "endDate",
-      "stipendAmount",
-    ])
+    .enum(["name", "universityRollNo", "semester", "section", "session"])
     .optional(),
   name: z.string().optional(),
   universityRollNo: z.string().optional(),
