@@ -1,6 +1,5 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { studentInternshipDTO } from "@/types/student-internship.dto";
 import parseQuery from "@/lib/student-internship-query/parseQuery";
 import { StudentQuery } from "@/types/studentQuery.type";
 import { studentQuerySchema } from "@/types/studentQuery.type";
