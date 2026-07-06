@@ -1,9 +1,9 @@
 import { internshipInputSchema } from "@/lib/validations/internshipInput";
-import { ValidateInternshipResult } from "@/types/validateInternshipRequestResult.type";
+import { ValidateInternshipPOST } from "@/types/validateInternshipRequestResult.type";
 import { prisma } from "@/lib/prisma";
 export async function validateInternshipRequest(
   request: Request,
-): Promise<ValidateInternshipResult> {
+): Promise<ValidateInternshipPOST> {
   const body = await request.json();
 
   const result = internshipInputSchema.safeParse(body);
