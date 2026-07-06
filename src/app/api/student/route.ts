@@ -7,7 +7,10 @@ import { validateSession } from "@/lib/validations/sessionValidation";
 
 export async function GET() {
   try {
+
+    // Session Validation
     const result = await validateSession();
+
     return NextResponse.json(
       { message: result.message, data: result.data },
       { status: result.status },
