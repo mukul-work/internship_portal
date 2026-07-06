@@ -5,7 +5,7 @@ import { validateInternshipRequest } from "@/lib/internship-input/validateIntern
 import { Prisma } from "@/generated/prisma/client";
 import { validateInternship } from "@/lib/validations/internshipValidation";
 
-export async function GET({ params }: { params: Promise<{ internshipId: string }> }) {
+export async function GET(request: Request, { params }: { params: Promise<{ internshipId: string }> }) {
 
     try {
         // Session validation
