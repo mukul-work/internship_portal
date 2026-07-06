@@ -83,3 +83,72 @@ export async function PATCH(
     }
 }
 
+
+export async function DELETE(
+    request: Request,
+    { params }: { params: Promise<{ internshipId: string }> },
+) {
+
+    try {
+        // Session validation
+        const sessionValidationResult = await validateSession();
+
+        if (!sessionValidationResult.data) {
+            return NextResponse.json(
+                { message: sessionValidationResult.message },
+                { status: sessionValidationResult.status },
+            );
+        }
+
+        // Internship Validation
+        const { internshipId } = await params;
+        const id = Number(internshipId)
+        const internshipValidationResult = await validateInternship(id, sessionValidationResult.data.studentId)
+
+        if (!internshipValidationResult.success) {
+            return NextResponse.json({
+                message: internshipValidationResult.message
+            }, {
+                status: internshipValidationResult.status
+            })
+        }
+
+
+
+        // Delete Internship
+        await prisma.internship.delete({
+            where: {
+                internshipId: id,
+            },
+        });
+
+        return NextResponse.json(
+            { message: "Internship Deleted successfully" },
+            { status: 200 },
+        );
+
+    } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            return NextResponse.json(
+                {
+                    message: error.message,
+                },
+                {
+                    status: 400,
+                },
+            );
+        }
+
+        console.error(error);
+
+        return NextResponse.json(
+            {
+                message: "Internal Server Error",
+            },
+            {
+                status: 500,
+            },
+        );
+    }
+}
+
