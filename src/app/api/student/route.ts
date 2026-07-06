@@ -3,29 +3,15 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
+import { validateSession } from "@/lib/validations/sessionValidation";
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.email) {
-      return NextResponse.json({ message: "Unauthorised" }, { status: 401 });
-    }
-    const student = await prisma.student.findUnique({
-      where: { studentEmail: session.user.email },
-
-      include: {
-        studentInternships: true,
-      },
-    });
-
-    if (!student) {
-      return NextResponse.json(
-        { message: "Student not found" },
-        { status: 404 },
-      );
-    }
-
-    return NextResponse.json(student);
+    const result = await validateSession();
+    return NextResponse.json(
+      { message: result.message, data: result.data },
+      { status: result.status },
+    );
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
