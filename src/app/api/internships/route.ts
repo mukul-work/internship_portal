@@ -5,6 +5,8 @@ import { validateInternshipRequest } from "@/lib/internship-input/validateIntern
 import { validateSession } from "@/lib/validations/sessionValidation";
 export const POST = async (request: Request) => {
   try {
+
+    // Session Validation
     const validationResult = await validateSession();
 
     if (!validationResult.data) {
@@ -13,6 +15,9 @@ export const POST = async (request: Request) => {
         { status: validationResult.status },
       );
     }
+
+
+    // Request Validation
     const result = await validateInternshipRequest(request);
 
     if (!result.success) {
