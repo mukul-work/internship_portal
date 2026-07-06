@@ -2,9 +2,17 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
 import { validateInternshipRequest } from "@/lib/internship-input/validateInternshipRequest";
-
+import { validateSession } from "@/lib/validations/sessionValidation";
 export const POST = async (request: Request) => {
   try {
+    const validationResult = await validateSession();
+
+    if (!validationResult.data) {
+      return NextResponse.json(
+        { message: validationResult.message },
+        { status: validationResult.status },
+      );
+    }
     const result = await validateInternshipRequest(request);
 
     if (!result.success) {
