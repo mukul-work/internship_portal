@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
-import { validateInternshipRequest } from "@/lib/internship-input.ts/validateInternshipRequest";
+import { validateInternshipRequest } from "@/lib/internship-input/validateInternshipRequest";
 
 export const POST = async (request: Request) => {
   try {
