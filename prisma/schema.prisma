@@ -20,7 +20,7 @@ model Student {
   studentId               Int          @id @default(autoincrement())
   studentName             String
   studentUniversityRollNo String       @unique
-  studentEmail            String
+  studentEmail            String       @unique
   studentContact          String
   studentGender           String
   studentSession          String
