@@ -1,5 +1,5 @@
 import { Prisma } from "@/generated/prisma/client";
-import { StudentQuery } from "@/types/studentQuery.type";
+import { StudentQuery } from "@/lib/validations/studentQuery.type";
 
 const studentSortFields = {
   name: "studentName",
