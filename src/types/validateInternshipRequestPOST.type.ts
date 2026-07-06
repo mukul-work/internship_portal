@@ -1,6 +1,6 @@
 import { InternshipInput } from "@/lib/validations/internshipInput";
 
-export type ValidateInternshipResult =
+export type ValidateInternshipPOST =
   | {
       success: true;
       status: 200;
