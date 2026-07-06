@@ -1,5 +1,5 @@
 import { internshipInputSchema } from "@/lib/validations/internshipInput";
-import { ValidateInternshipPOST } from "@/types/validateInternshipRequestResult.type";
+import { ValidateInternshipPOST } from "@/types/validateInternshipRequestPOST.type";
 import { prisma } from "@/lib/prisma";
 export async function validateInternshipRequest(
   request: Request,
