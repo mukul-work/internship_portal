@@ -6,7 +6,7 @@ export async function getStudentInternshipData(): Promise<
 > {
   const cookieStore = await cookies();
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/students`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/students`,
     {
       headers: {
         Cookie: cookieStore.toString(),
