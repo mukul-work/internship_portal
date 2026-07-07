@@ -13,7 +13,11 @@ export default withAuth(
         if (pathname.startsWith("/api/auth")) {
           return true;
         }
-        if (pathname.startsWith("/api/admin") || pathname === "/auth/signin") {
+        if (
+          pathname.startsWith("/api/admin") ||
+          pathname === "/auth/signin" ||
+          pathname === "/Admin-Module/dashboard"
+        ) {
           return token?.role === "ADMIN";
         }
         if (pathname.startsWith("/api/student")) {
