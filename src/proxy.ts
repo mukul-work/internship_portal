@@ -10,11 +10,16 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         const { pathname } = req.nextUrl;
-        if (pathname.startsWith("/api/auth") || pathname === "/auth/signin") {
+        if (pathname.startsWith("/api/auth")) {
           return true;
         }
-
-        return !!token;
+        if (pathname.startsWith("/api/admin") || pathname === "/auth/signin") {
+          return token?.role === "ADMIN";
+        }
+        if (pathname.startsWith("/api/student")) {
+          return token?.role === "STUDENT";
+        }
+        return true;
       },
     },
   },
