@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider === "google") {
-        if (!user.email?.endsWith("kiet@edu")) {
+        if (!user.email?.endsWith("@kiet.edu")) {
           return false;
         }
         const student = await prisma.student.findUnique({
