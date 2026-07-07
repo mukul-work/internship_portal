@@ -16,7 +16,7 @@ export default withAuth(
         if (
           pathname.startsWith("/api/admin") ||
           pathname === "/auth/signin" ||
-          pathname === "/Admin-Module/dashboard"
+          pathname === "/Admin-Module"
         ) {
           return token?.role === "ADMIN";
         }
