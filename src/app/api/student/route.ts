@@ -67,7 +67,7 @@ export async function PATCH(request: Request) {
       );
     }
 
-    // Update Internship
+    // Update Student
     const updated = await prisma.student.update({
       where: {
         studentId: studentValidationResult.data.studentId,
@@ -75,6 +75,9 @@ export async function PATCH(request: Request) {
       data: {
         ...result.data,
         studentId: studentValidationResult.data.studentId,
+      },
+      include: {
+        studentInternships: true,
       },
     });
 
