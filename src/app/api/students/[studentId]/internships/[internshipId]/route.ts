@@ -27,10 +27,11 @@ export async function GET(
     }
 
     // Internship Validation
-
     const id = Number(internshipId);
-    const sid = Number(studentId);
-    const internshipValidationResult = await validateInternship(id, sid);
+    const internshipValidationResult = await validateInternship(
+      id,
+      studentValidationResult.data.studentId,
+    );
 
     if (!internshipValidationResult.success) {
       return NextResponse.json(
@@ -96,8 +97,10 @@ export async function PATCH(
 
     // Internship Validation
     const id = Number(internshipId);
-    const sid = Number(studentId);
-    const internshipValidationResult = await validateInternship(id, sid);
+    const internshipValidationResult = await validateInternship(
+      id,
+      studentValidationResult.data.studentId,
+    );
 
     if (!internshipValidationResult.success) {
       return NextResponse.json(
@@ -186,8 +189,10 @@ export async function DELETE(
 
     // Internship Validation
     const id = Number(internshipId);
-    const sid = Number(studentId);
-    const internshipValidationResult = await validateInternship(id, sid);
+    const internshipValidationResult = await validateInternship(
+      id,
+      studentValidationResult.data.studentId,
+    );
 
     if (!internshipValidationResult.success) {
       return NextResponse.json(
