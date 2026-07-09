@@ -1,6 +1,7 @@
-import { internshipInputSchema } from "@/lib/validations/internshipInput";
+import { internshipInputSchema } from "@/lib/validations//internship-input/internshipInput";
 import { ValidateInternshipPOST } from "@/types/validateInternshipRequestPOST.type";
 import { prisma } from "@/lib/prisma";
+
 export async function validateInternshipRequest(
   request: Request,
 ): Promise<ValidateInternshipPOST> {
