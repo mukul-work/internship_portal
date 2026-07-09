@@ -3,7 +3,7 @@ import { authOptions } from "../../auth";
 import { prisma } from "@/lib/prisma";
 import { studentInputSchema } from "../student-input/studentInput";
 
-export async function validateStudentSession(request: Request) {
+export async function validateStudentSession(studentId: string) {
   const session = await getServerSession(authOptions);
 
   if (!(session?.user?.role === "STUDENT")) {
@@ -12,18 +12,6 @@ export async function validateStudentSession(request: Request) {
 
   if (!session?.user?.email) {
     return { message: "Email not found", status: 400, data: null };
-  }
-
-  const body = await request.json();
-  const result = studentInputSchema.safeParse(body);
-
-  if (!result.success) {
-    return {
-      success: false,
-      status: 400,
-      message: "Invalid Request",
-      data: null,
-    };
   }
 
   const student = await prisma.student.findUnique({
@@ -42,7 +30,10 @@ export async function validateStudentSession(request: Request) {
       data: null,
     };
   }
-  if (result.data.studentId !== student.studentId) {
+
+  const id = Number(studentId);
+
+  if (id !== student.studentId) {
     return {
       success: false,
       message: "Invalid StudentId",
