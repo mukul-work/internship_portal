@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
-import { validateAdminSessionAndFetchStudentById } from "@/lib/validations/adminSessionValidation";
+import { validateAdminSessionAndFetchStudentById } from "@/lib/validations/sessions/adminSessionValidation";
 
 export async function GET(
   request: Request,
