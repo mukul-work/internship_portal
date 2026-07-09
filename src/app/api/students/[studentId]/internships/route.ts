@@ -25,7 +25,10 @@ export const POST = async (
     }
 
     // Request Validation
-    const result = await validateInternshipRequest(request);
+    const result = await validateInternshipRequest(
+      request,
+      studentValidationResult.data.studentId,
+    );
 
     if (!result.success) {
       return NextResponse.json(
