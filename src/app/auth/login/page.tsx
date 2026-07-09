@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 export default function AdminLoginPage() {
   const router = useRouter();
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex flex-col min-h-screen items-center justify-center">
       <button
         onClick={() =>
           router.push("auth/login/admin?callbackUrl=/Admin-Module/dashboard")
