@@ -8,7 +8,7 @@ interface Response {
   data: studentInternshipDTO | studentInternshipDTO[] | null;
 }
 
-export async function fetchStudentInternshipDataUsingSession(
+export async function updateStudentDataForStudent(
   data: studentPATCH,
 ): Promise<Response> {
   try {
