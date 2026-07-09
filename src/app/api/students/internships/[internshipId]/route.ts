@@ -8,11 +8,13 @@ import { success } from "zod";
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ internshipId: string }> },
+  { params }: { params: Promise<{ internshipId: string; studentId: string }> },
 ) {
   try {
+    const { internshipId, studentId } = await params;
+
     // Session validation
-    const studentValidationResult = await validateStudentSession(request);
+    const studentValidationResult = await validateStudentSession(studentId);
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
@@ -25,7 +27,7 @@ export async function GET(
     }
 
     // Internship Validation
-    const { internshipId } = await params;
+
     const id = Number(internshipId);
     const internshipValidationResult = await validateInternship(id);
 
@@ -73,11 +75,13 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: Promise<{ internshipId: string }> },
+  { params }: { params: Promise<{ internshipId: string; studentId: string }> },
 ) {
   try {
+    const { internshipId, studentId } = await params;
+
     // Session validation
-    const studentValidationResult = await validateStudentSession(request);
+    const studentValidationResult = await validateStudentSession(studentId);
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
@@ -90,7 +94,6 @@ export async function PATCH(
     }
 
     // Internship Validation
-    const { internshipId } = await params;
     const id = Number(internshipId);
     const internshipValidationResult = await validateInternship(id);
 
@@ -158,11 +161,13 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ internshipId: string }> },
+  { params }: { params: Promise<{ internshipId: string; studentId: string }> },
 ) {
   try {
+    const { internshipId, studentId } = await params;
+
     // Session validation
-    const studentValidationResult = await validateStudentSession(request);
+    const studentValidationResult = await validateStudentSession(studentId);
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
@@ -175,7 +180,6 @@ export async function DELETE(
     }
 
     // Internship Validation
-    const { internshipId } = await params;
     const id = Number(internshipId);
     const internshipValidationResult = await validateInternship(id);
 
