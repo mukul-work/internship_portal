@@ -1,7 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { studentInputSchema } from "./studentInput";
 
-export async function validateStudentRequest(request: Request) {
+export async function validateStudentRequest(
+  request: Request,
+  studentId: number,
+) {
   const body = await request.json();
   const result = studentInputSchema.safeParse(body);
 
@@ -11,6 +14,15 @@ export async function validateStudentRequest(request: Request) {
       status: 400,
       message: "Invalid Request",
       data: null,
+    };
+  }
+
+  if (result.data.studentId !== studentId) {
+    return {
+      success: false,
+      message: "Invalid StudentId",
+      data: null,
+      status: 400,
     };
   }
 
