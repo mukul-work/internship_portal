@@ -37,14 +37,17 @@ export async function patchStudentDataForStudent(
   data: studentPATCH,
 ): Promise<Response> {
   const cookieStore = await cookies();
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/student`, {
-    method: "PATCH",
-    headers: {
-      Cookie: cookieStore.toString(),
-      "Content-Type": "application/json",
+  const response = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/students/${data.studentId}`,
+    {
+      method: "PATCH",
+      headers: {
+        Cookie: cookieStore.toString(),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     },
-    body: JSON.stringify(data),
-  });
+  );
 
   return response.json();
 }
