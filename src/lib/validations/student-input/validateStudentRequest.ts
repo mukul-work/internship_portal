@@ -1,10 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { studentInputSchema } from "./studentInput";
 
-export async function validateStudentRequest(
-  request: Request,
-  studentId: number,
-) {
+export async function validateStudentRequest(request: Request) {
   const body = await request.json();
   const result = studentInputSchema.safeParse(body);
 
@@ -16,14 +13,7 @@ export async function validateStudentRequest(
       data: null,
     };
   }
-  if (result.data.studentId !== studentId) {
-    return {
-      success: false,
-      message: "Invalid StudentId",
-      status: 400,
-      data: null,
-    };
-  }
+
   const student = await prisma.student.findUnique({
     where: {
       studentId: result.data.studentId,
