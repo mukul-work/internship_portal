@@ -10,12 +10,12 @@ interface Response {
   data: studentInternshipDTO | studentInternshipDTO[] | null;
 }
 
-export async function fetchAllStudentsInternshipData(): Promise<Response> {
+export async function fetchAllStudentsDataForAdmin(): Promise<Response> {
   try {
     const response = await getAllStudentsDataForAdmin();
     return {
-      success: true,
-      message: "Student Internship Data fetched successfully",
+      success: response.success,
+      message: response.message,
       data: response.data,
     };
   } catch (err) {
@@ -28,7 +28,7 @@ export async function fetchAllStudentsInternshipData(): Promise<Response> {
   }
 }
 
-export async function fetchStudentInternshipDataUsingSession(): Promise<Response> {
+export async function fetchStudentDataForStudent(): Promise<Response> {
   try {
     const response = await getStudentDataForStudent();
     return {
