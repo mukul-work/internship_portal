@@ -48,6 +48,7 @@ export async function PATCH(request: Request) {
         {
           success: studentValidationResult.success,
           message: studentValidationResult.message,
+          data: studentValidationResult.data,
         },
         { status: studentValidationResult.status },
       );
@@ -61,7 +62,7 @@ export async function PATCH(request: Request) {
 
     if (!result.success) {
       return NextResponse.json(
-        { success: result.success, message: result.message },
+        { success: result.success, message: result.message, data: result.data },
         { status: result.status },
       );
     }
@@ -88,7 +89,7 @@ export async function PATCH(request: Request) {
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
-        { success: false, message: error.message },
+        { success: false, message: error.message, data: null },
         {
           status: 400,
         },
@@ -98,7 +99,7 @@ export async function PATCH(request: Request) {
     console.error(error);
 
     return NextResponse.json(
-      { success: true, message: "Internal Server Error" },
+      { success: true, message: "Internal Server Error", data: null },
       {
         status: 500,
       },
