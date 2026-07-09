@@ -1,4 +1,4 @@
-import { ValidateStudentPOST } from "@/types/validateInternshipRequestPOST.type";
+import { ValidateStudentPOST } from "@/types/validateRequestPOST.type";
 import { prisma } from "@/lib/prisma";
 import { studentInputSchema } from "./studentInput";
 
