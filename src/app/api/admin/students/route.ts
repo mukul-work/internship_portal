@@ -34,13 +34,17 @@ export const GET = async (request: Request) => {
       totalPages: Math.ceil(total / Number(query.pageSize)),
     };
     return NextResponse.json(
-      { success: true, data: response },
+      {
+        success: true,
+        data: response,
+        message: "Student data fetched successfully",
+      },
       { status: 200 },
     );
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
-        { success: false, message: error.message },
+        { success: false, message: error.message, data: null },
         {
           status: 400,
         },
@@ -50,7 +54,7 @@ export const GET = async (request: Request) => {
     console.error(error);
 
     return NextResponse.json(
-      { success: false, message: "Internal Server Error" },
+      { success: false, message: "Internal Server Error", data: null },
       {
         status: 500,
       },
