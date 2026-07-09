@@ -1,10 +1,25 @@
 import { internshipInputSchema } from "@/lib/validations//internship-input/internshipInput";
-import { ValidateInternshipPOST } from "@/types/validateRequestPOST.type";
 import { prisma } from "@/lib/prisma";
+import { InternshipInput } from "./internshipInput";
+
+type internshipValidationResult =
+  | {
+      success: true;
+      status: 200;
+      message: string;
+      data: InternshipInput;
+    }
+  | {
+      success: false;
+      status: number;
+      message: string;
+      data: null;
+    };
 
 export async function validateInternshipRequest(
   request: Request,
-): Promise<ValidateInternshipPOST> {
+  studentId: number,
+): Promise<internshipValidationResult> {
   const body = await request.json();
 
   const result = internshipInputSchema.safeParse(body);
@@ -14,6 +29,16 @@ export async function validateInternshipRequest(
       success: false,
       status: 400,
       message: "Invalid Request",
+      data: null,
+    };
+  }
+
+  if (result.data.studentId !== studentId) {
+    return {
+      success: false,
+      message: "Invalid internship Id",
+      data: null,
+      status: 400,
     };
   }
 
@@ -28,6 +53,7 @@ export async function validateInternshipRequest(
       success: false,
       status: 404,
       message: "Student not found",
+      data: null,
     };
   }
 
@@ -35,5 +61,6 @@ export async function validateInternshipRequest(
     success: true,
     status: 200,
     data: result.data,
+    message: "Internship Validated",
   };
 }
