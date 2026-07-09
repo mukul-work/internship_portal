@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { validateStudentSession } from "@/lib/validations/studentSessionValidation";
+import { validateStudentSession } from "@/lib/validations/sessions/studentSessionValidation";
 import { prisma } from "@/lib/prisma";
-import { validateInternshipRequest } from "@/lib/internship-input/validateInternshipRequest";
+import { validateInternshipRequest } from "@/lib/validations/internship-input/validateInternshipRequest";
 import { Prisma } from "@/generated/prisma/client";
-import { validateInternship } from "@/lib/validations/internshipValidation";
+import { validateInternship } from "@/lib/validations/internship-input/internshipValidation";
 import { success } from "zod";
 
 export async function GET(

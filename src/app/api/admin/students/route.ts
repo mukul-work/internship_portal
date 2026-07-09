@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import parseQuery from "@/lib/student-internship-query/parseQuery";
-import { StudentQuery } from "@/lib/validations/studentQuery.type";
+import { StudentQuery } from "@/lib/validations/student-input/studentQuery.type";
 import { studentSelect } from "@/lib/student-internship-query/studentSelect";
 import { buildStudentOrderBy } from "@/lib/student-internship-query/buildStudentSortBy";
 import { buildStudentWhere } from "@/lib/student-internship-query/buildStudentWhere";
