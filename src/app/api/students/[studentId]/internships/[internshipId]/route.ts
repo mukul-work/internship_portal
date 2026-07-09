@@ -29,7 +29,8 @@ export async function GET(
     // Internship Validation
 
     const id = Number(internshipId);
-    const internshipValidationResult = await validateInternship(id);
+    const sid = Number(studentId);
+    const internshipValidationResult = await validateInternship(id, sid);
 
     if (!internshipValidationResult.success) {
       return NextResponse.json(
@@ -95,7 +96,8 @@ export async function PATCH(
 
     // Internship Validation
     const id = Number(internshipId);
-    const internshipValidationResult = await validateInternship(id);
+    const sid = Number(studentId);
+    const internshipValidationResult = await validateInternship(id, sid);
 
     if (!internshipValidationResult.success) {
       return NextResponse.json(
@@ -184,7 +186,8 @@ export async function DELETE(
 
     // Internship Validation
     const id = Number(internshipId);
-    const internshipValidationResult = await validateInternship(id);
+    const sid = Number(studentId);
+    const internshipValidationResult = await validateInternship(id, sid);
 
     if (!internshipValidationResult.success) {
       return NextResponse.json(
