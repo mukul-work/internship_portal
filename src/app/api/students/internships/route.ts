@@ -4,10 +4,15 @@ import { Prisma } from "@/generated/prisma/client";
 import { validateInternshipRequest } from "@/lib/validations/internship-input/validateInternshipRequest";
 import { validateStudentSession } from "@/lib/validations/sessions/studentSessionValidation";
 import { success } from "zod";
-export const POST = async (request: Request) => {
+export const POST = async (
+  request: Request,
+  { params }: { params: Promise<{ studentId: string }> },
+) => {
   try {
+    const { studentId } = await params;
+
     // Session Validation
-    const studentValidationResult = await validateStudentSession(request);
+    const studentValidationResult = await validateStudentSession(studentId);
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
