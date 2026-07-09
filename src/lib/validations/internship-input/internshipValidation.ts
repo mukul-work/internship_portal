@@ -1,10 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { success } from "zod";
 
-export async function validateInternship(
-  internshipId: number,
-  studentId: Number,
-) {
+export async function validateInternship(internshipId: number) {
   if (Number.isNaN(internshipId)) {
     return {
       message: "Invalid internship id",
@@ -25,10 +22,6 @@ export async function validateInternship(
       success: false,
       data: null,
     };
-  }
-
-  if (internship.studentId !== studentId) {
-    return { message: "Forbidden", status: 403, success: false, data: null };
   }
 
   return {
