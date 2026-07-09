@@ -33,7 +33,10 @@ export const GET = async (request: Request) => {
       pageSize: query.pageSize,
       totalPages: Math.ceil(total / Number(query.pageSize)),
     };
-    return NextResponse.json({ success: true, response }, { status: 200 });
+    return NextResponse.json(
+      { success: true, data: response },
+      { status: 200 },
+    );
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
