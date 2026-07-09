@@ -1,9 +1,8 @@
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
 import { validateStudentSession } from "@/lib/validations/sessions/studentSessionValidation";
+import { validateStudentRequest } from "@/lib/validations/student-input/validateStudentRequest";
 
 export async function GET(request: Request) {
   try {
@@ -39,10 +38,7 @@ export async function GET(request: Request) {
   }
 }
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ internshipId: string }> },
-) {
+export async function PATCH(request: Request) {
   try {
     // Session validation
     const studentValidationResult = await validateStudentSession();
@@ -58,7 +54,10 @@ export async function PATCH(
     }
 
     // Request Validation
-    const result = await validateInternshipRequest(request);
+    const result = await validateStudentRequest(
+      request,
+      studentValidationResult.data.studentId,
+    );
 
     if (!result.success) {
       return NextResponse.json(
@@ -68,9 +67,9 @@ export async function PATCH(
     }
 
     // Update Internship
-    const updated = await prisma.internship.update({
+    const updated = await prisma.student.update({
       where: {
-        internshipId: id,
+        studentId: studentValidationResult.data.studentId,
       },
       data: {
         ...result.data,
@@ -81,7 +80,7 @@ export async function PATCH(
     return NextResponse.json(
       {
         success: true,
-        message: "Internship updated successfully",
+        message: "Student updated successfully",
         data: updated,
       },
       { status: 200 },
