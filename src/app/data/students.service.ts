@@ -1,24 +1,22 @@
 import {
-  getAllStudentInternshipData,
-  getStudentInternshipDataUsingSession,
+  getAllStudentsDataForAdmin,
+  getStudentDataForStudent,
 } from "./students.dal";
 import { studentInternshipDTO } from "@/types/student-internship.dto";
 
-interface ServiceResponse<T> {
+interface Response {
   success: boolean;
   message: string;
-  data: T | null;
+  data: studentInternshipDTO | studentInternshipDTO[] | null;
 }
 
-export async function fetchAllStudentsInternshipData(): Promise<
-  ServiceResponse<studentInternshipDTO[]>
-> {
+export async function fetchAllStudentsInternshipData(): Promise<Response> {
   try {
-    const response = await getAllStudentInternshipData();
+    const response = await getAllStudentsDataForAdmin();
     return {
       success: true,
       message: "Student Internship Data fetched successfully",
-      data: response,
+      data: response.data,
     };
   } catch (err) {
     console.error("Error: ", err);
@@ -30,15 +28,13 @@ export async function fetchAllStudentsInternshipData(): Promise<
   }
 }
 
-export async function fetchStudentInternshipDataUsingSession(): Promise<
-  ServiceResponse<studentInternshipDTO>
-> {
+export async function fetchStudentInternshipDataUsingSession(): Promise<Response> {
   try {
-    const response = await getStudentInternshipDataUsingSession();
+    const response = await getStudentDataForStudent();
     return {
       success: true,
       message: "Student Internship Data fetched successfully by ID",
-      data: response,
+      data: response.data,
     };
   } catch (err) {
     console.error("Error: ", err);
