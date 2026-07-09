@@ -7,7 +7,7 @@ import { success } from "zod";
 export const POST = async (request: Request) => {
   try {
     // Session Validation
-    const studentValidationResult = await validateStudentSession();
+    const studentValidationResult = await validateStudentSession(request);
 
     if (!studentValidationResult.data) {
       return NextResponse.json(

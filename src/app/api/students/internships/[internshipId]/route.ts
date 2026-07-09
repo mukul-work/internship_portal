@@ -12,7 +12,7 @@ export async function GET(
 ) {
   try {
     // Session validation
-    const studentValidationResult = await validateStudentSession();
+    const studentValidationResult = await validateStudentSession(request);
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
@@ -27,10 +27,7 @@ export async function GET(
     // Internship Validation
     const { internshipId } = await params;
     const id = Number(internshipId);
-    const internshipValidationResult = await validateInternship(
-      id,
-      studentValidationResult.data.studentId,
-    );
+    const internshipValidationResult = await validateInternship(id);
 
     if (!internshipValidationResult.success) {
       return NextResponse.json(
@@ -80,7 +77,7 @@ export async function PATCH(
 ) {
   try {
     // Session validation
-    const studentValidationResult = await validateStudentSession();
+    const studentValidationResult = await validateStudentSession(request);
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
@@ -95,10 +92,7 @@ export async function PATCH(
     // Internship Validation
     const { internshipId } = await params;
     const id = Number(internshipId);
-    const internshipValidationResult = await validateInternship(
-      id,
-      studentValidationResult.data.studentId,
-    );
+    const internshipValidationResult = await validateInternship(id);
 
     if (!internshipValidationResult.success) {
       return NextResponse.json(
@@ -168,7 +162,7 @@ export async function DELETE(
 ) {
   try {
     // Session validation
-    const studentValidationResult = await validateStudentSession();
+    const studentValidationResult = await validateStudentSession(request);
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
@@ -183,10 +177,7 @@ export async function DELETE(
     // Internship Validation
     const { internshipId } = await params;
     const id = Number(internshipId);
-    const internshipValidationResult = await validateInternship(
-      id,
-      studentValidationResult.data.studentId,
-    );
+    const internshipValidationResult = await validateInternship(id);
 
     if (!internshipValidationResult.success) {
       return NextResponse.json(
