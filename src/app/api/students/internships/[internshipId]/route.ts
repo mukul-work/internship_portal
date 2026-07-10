@@ -1,20 +1,20 @@
 import { NextResponse } from "next/server";
 import { validateStudentSession } from "@/lib/validations/sessions/studentSessionValidation";
 import { prisma } from "@/lib/prisma";
-import { validateInternshipRequest } from "@/lib/validations/internship-input/validateInternshipRequest";
+import { validateInternshipPATCHRequest } from "@/lib/validations/internship-input/validateInternshipRequest";
 import { Prisma } from "@/generated/prisma/client";
 import { validateInternship } from "@/lib/validations/internship-input/internshipValidation";
 import { success } from "zod";
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ internshipId: string; studentId: string }> },
+  { params }: { params: Promise<{ internshipId: string }> },
 ) {
   try {
-    const { internshipId, studentId } = await params;
+    const { internshipId } = await params;
 
     // Session validation
-    const studentValidationResult = await validateStudentSession(studentId);
+    const studentValidationResult = await validateStudentSession();
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
@@ -77,13 +77,13 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: Promise<{ internshipId: string; studentId: string }> },
+  { params }: { params: Promise<{ internshipId: string }> },
 ) {
   try {
-    const { internshipId, studentId } = await params;
+    const { internshipId } = await params;
 
     // Session validation
-    const studentValidationResult = await validateStudentSession(studentId);
+    const studentValidationResult = await validateStudentSession();
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
@@ -95,8 +95,22 @@ export async function PATCH(
       );
     }
 
-    // Internship Validation
+    // Request Validation
     const id = Number(internshipId);
+    const result = await validateInternshipPATCHRequest(
+      request,
+      id,
+      studentValidationResult.data.studentId,
+    );
+
+    if (!result.success) {
+      return NextResponse.json(
+        { success: result.success, message: result.message },
+        { status: result.status },
+      );
+    }
+
+    // Internship Validation
     const internshipValidationResult = await validateInternship(
       id,
       studentValidationResult.data.studentId,
@@ -111,19 +125,6 @@ export async function PATCH(
         {
           status: internshipValidationResult.status,
         },
-      );
-    }
-
-    // Request Validation
-    const result = await validateInternshipRequest(
-      request,
-      studentValidationResult.data.studentId,
-    );
-
-    if (!result.success) {
-      return NextResponse.json(
-        { success: result.success, message: result.message },
-        { status: result.status },
       );
     }
 
@@ -169,13 +170,13 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ internshipId: string; studentId: string }> },
+  { params }: { params: Promise<{ internshipId: string }> },
 ) {
   try {
-    const { internshipId, studentId } = await params;
+    const { internshipId } = await params;
 
     // Session validation
-    const studentValidationResult = await validateStudentSession(studentId);
+    const studentValidationResult = await validateStudentSession();
 
     if (!studentValidationResult.data) {
       return NextResponse.json(

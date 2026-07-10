@@ -1,18 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
-import { validateInternshipRequest } from "@/lib/validations/internship-input/validateInternshipRequest";
+import { validateInternshipPOSTRequest } from "@/lib/validations/internship-input/validateInternshipRequest";
 import { validateStudentSession } from "@/lib/validations/sessions/studentSessionValidation";
 import { success } from "zod";
 export const POST = async (
   request: Request,
-  { params }: { params: Promise<{ studentId: string }> },
+  // { params }: { params: Promise<{ studentId: string }> },
 ) => {
   try {
-    const { studentId } = await params;
+    // const { studentId } = await params;
 
     // Session Validation
-    const studentValidationResult = await validateStudentSession(studentId);
+    const studentValidationResult = await validateStudentSession();
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
@@ -25,7 +25,7 @@ export const POST = async (
     }
 
     // Request Validation
-    const result = await validateInternshipRequest(
+    const result = await validateInternshipPOSTRequest(
       request,
       studentValidationResult.data.studentId,
     );
@@ -39,7 +39,7 @@ export const POST = async (
 
     const internship = await prisma.internship.create({
       data: {
-        ...result.data,
+        ...result.data!,
         studentId: studentValidationResult.data.studentId,
       },
     });

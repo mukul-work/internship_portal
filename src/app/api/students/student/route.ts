@@ -4,15 +4,10 @@ import { Prisma } from "@/generated/prisma/client";
 import { validateStudentSession } from "@/lib/validations/sessions/studentSessionValidation";
 import { validateStudentRequest } from "@/lib/validations/student-input/validateStudentRequest";
 
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ studentId: string }> },
-) {
+export async function GET(request: Request) {
   try {
-    const { studentId } = await params;
-
     // Session Validation
-    const studentValidationResult = await validateStudentSession(studentId);
+    const studentValidationResult = await validateStudentSession();
 
     return NextResponse.json(
       {
@@ -43,15 +38,10 @@ export async function GET(
   }
 }
 
-export async function PATCH(
-  request: Request,
-  { params }: { params: Promise<{ studentId: string }> },
-) {
+export async function PATCH(request: Request) {
   try {
-    const { studentId } = await params;
-
     // Session validation
-    const studentValidationResult = await validateStudentSession(studentId);
+    const studentValidationResult = await validateStudentSession();
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
