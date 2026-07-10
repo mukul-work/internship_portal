@@ -19,6 +19,7 @@ export const POST = async (
         {
           success: studentValidationResult.success,
           message: studentValidationResult.message,
+          data: studentValidationResult.data,
         },
         { status: studentValidationResult.status },
       );
@@ -32,7 +33,7 @@ export const POST = async (
 
     if (!result.success) {
       return NextResponse.json(
-        { success: result.success, message: result.message },
+        { success: result.success, message: result.message, data: result.data },
         { status: result.status },
       );
     }
@@ -46,19 +47,27 @@ export const POST = async (
 
     if (!internship) {
       return NextResponse.json(
-        { success: false, message: "Failed to create internship" },
+        {
+          success: false,
+          message: "Failed to create internship",
+          data: null,
+        },
         { status: 500 },
       );
     }
 
     return NextResponse.json(
-      { success: true, message: "Internship created successfully" },
+      {
+        success: true,
+        message: "Internship created successfully",
+        data: internship,
+      },
       { status: 201 },
     );
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
-        { success: false, message: error.message },
+        { success: false, message: error.message, data: null },
         {
           status: 400,
         },
@@ -68,7 +77,7 @@ export const POST = async (
     console.error(error);
 
     return NextResponse.json(
-      { success: false, message: "Internal Server Error" },
+      { success: false, message: "Internal Server Error", data: null },
       {
         status: 500,
       },
