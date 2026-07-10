@@ -6,7 +6,7 @@ export interface InternshipDTO {
   sourceOfInternship: string;
   internshipType: string;
   role: string;
-  duration: string;
+  duration: number;
   startDate: Date;
   endDate: Date;
   stipend: string;

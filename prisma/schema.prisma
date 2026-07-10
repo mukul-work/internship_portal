@@ -37,7 +37,7 @@ model Internship {
   sourceOfInternship  String
   internshipType      String
   role                String
-  duration            String
+  duration            Int
   startDate           String
   endDate             String
   stipend             Boolean

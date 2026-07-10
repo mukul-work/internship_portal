@@ -1,10 +1,9 @@
 export interface internshipPOST {
-  internshipId: number;
   studentId: number;
   sourceOfInternship: string;
   internshipType: string;
   role: string;
-  duration: string;
+  duration: number;
   startDate: string;
   endDate: string;
   stipend: boolean;
