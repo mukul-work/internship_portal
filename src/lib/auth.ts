@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
+  debug: true,
   providers: [
     CredentialsProvider({
       id: "credentials",
@@ -68,6 +69,8 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, account }) {
+      console.log("USER DATA: ", user);
+      console.log("ACCOUNT DATA: ", account);
       if (account?.provider === "google") {
         if (!user.email?.endsWith("@kiet.edu")) {
           return false;
