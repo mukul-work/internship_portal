@@ -3,7 +3,7 @@ import { authOptions } from "../../auth";
 import { prisma } from "@/lib/prisma";
 import { studentInputSchema } from "../student-input/studentInput";
 
-export async function validateStudentSession(studentId: string) {
+export async function validateStudentSession() {
   const session = await getServerSession(authOptions);
 
   if (!(session?.user?.role === "STUDENT")) {
@@ -31,16 +31,16 @@ export async function validateStudentSession(studentId: string) {
     };
   }
 
-  const id = Number(studentId);
+  // const id = Number(studentId);
 
-  if (id !== student.studentId) {
-    return {
-      success: false,
-      message: "Invalid StudentId",
-      status: 400,
-      data: null,
-    };
-  }
+  // if (id !== student.studentId) {
+  //   return {
+  //     success: false,
+  //     message: "Invalid StudentId",
+  //     status: 400,
+  //     data: null,
+  //   };
+  // }
   return {
     success: true,
     message: "Student authorised and found",
