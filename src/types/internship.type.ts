@@ -1,7 +1,7 @@
 import { Student } from "./student.type";
 
 export interface Internship {
-  id: number;
+  internshipId: number;
   studentId: number;
   sourceOfInternship: string;
   internshipType: string;
