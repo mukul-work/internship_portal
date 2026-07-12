@@ -17,7 +17,7 @@ export async function GET(request: Request) {
       },
       { status: studentValidationResult.status },
     );
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
         { success: false, message: error.message, data: null },
@@ -89,7 +89,7 @@ export async function PATCH(request: Request) {
       },
       { status: 200 },
     );
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
         { success: false, message: error.message, data: null },
