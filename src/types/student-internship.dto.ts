@@ -1,21 +1,18 @@
-import { DateTime } from "next-auth/providers/kakao";
-
 export interface InternshipDTO {
   internshipId: number;
   studentId: number;
-  sourceOfInternship: string;
+  sourceOfInternship: "SELF" | "IIPC" | "DEPT";
   internshipType: string;
   role: string;
-  duration: number;
   startDate: Date;
   endDate: Date;
-  stipend: string;
+  stipend: boolean;
   stipendAmount?: string;
-  ppo: string;
+  ppo: boolean;
   ppoProof?: string;
   organisationName: string;
   organisationAddress: string;
-  status: string;
+  status: "COMPLETED" | "ONGOING";
   completionProof?: string;
 }
 
@@ -24,10 +21,10 @@ export interface studentInternshipDTO {
   studentName: string;
   studentContact: string;
   studentEmail: string;
-  studentGender: string;
-  studentSection: string;
-  studentSemester: string;
-  studentSession: string;
+  studentGender: "MALE" | "FEMALE" | "OTHER";
+  studentSection: "A" | "B" | "C" | "D" | "E";
+  studentSemester: "2" | "4" | "6";
+  studentSession: "2027" | "2028" | "2029";
   studentUniversityRollNo: string;
-  studentInternship?: InternshipDTO[];
+  studentInternships?: InternshipDTO[];
 }

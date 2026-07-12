@@ -3,7 +3,6 @@ export interface internshipPOST {
   sourceOfInternship: string;
   internshipType: string;
   role: string;
-  duration: number;
   startDate: string;
   endDate: string;
   stipend: boolean;

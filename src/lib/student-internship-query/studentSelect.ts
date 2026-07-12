@@ -17,7 +17,6 @@ export const studentSelect = {
       sourceOfInternship: true,
       internshipType: true,
       role: true,
-      duration: true,
       startDate: true,
       endDate: true,
       stipend: true,
