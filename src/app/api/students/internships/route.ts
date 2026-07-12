@@ -42,6 +42,8 @@ export const POST = async (
       data: {
         ...result.data!,
         studentId: studentValidationResult.data.studentId,
+        startDate: new Date(result.data!.startDate),
+        endDate: new Date(result.data!.endDate),
       },
     });
 
