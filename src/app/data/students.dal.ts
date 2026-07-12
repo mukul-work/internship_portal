@@ -2,13 +2,21 @@ import { studentInternshipDTO } from "@/types/student-internship.dto";
 import { studentPATCH } from "@/types/student.PATCH";
 import { cookies } from "next/headers";
 
-interface Response {
+interface allStudentResponse {
   success: boolean;
   message: string;
-  data: studentInternshipDTO | studentInternshipDTO[];
+  data?: studentInternshipDTO[];
+  error?: string;
 }
 
-export async function getAllStudentsDataForAdmin(): Promise<Response> {
+interface indivisualStudentReponse {
+  success: boolean;
+  message: string;
+  data?: studentInternshipDTO;
+  error?: string;
+}
+
+export async function getAllStudentsDataForAdmin(): Promise<allStudentResponse> {
   const cookieStore = await cookies();
   const response = await fetch(
     `${process.env.NEXTAUTH_URL}/api/admin/students`,
@@ -22,14 +30,26 @@ export async function getAllStudentsDataForAdmin(): Promise<Response> {
   return response.json();
 }
 
-export async function getStudentDataForStudent(): Promise<Response> {
+export async function getStudentDataForStudent(): Promise<indivisualStudentReponse> {
   const cookieStore = await cookies();
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/student`, {
-    headers: {
-      Cookie: cookieStore.toString(),
+  const response = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/students/student`,
+    {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
     },
-  });
+  );
 
+  if (!response.ok) {
+    const errorText = await response.text();
+    return {
+      success: false,
+      message: "Error while fetching student data",
+      data: undefined,
+      error: errorText,
+    };
+  }
   return response.json();
 }
 

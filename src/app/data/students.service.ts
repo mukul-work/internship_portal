@@ -4,13 +4,19 @@ import {
 } from "./students.dal";
 import { studentInternshipDTO } from "@/types/student-internship.dto";
 
-interface Response {
+interface allStudentResponse {
   success: boolean;
   message: string;
-  data: studentInternshipDTO | studentInternshipDTO[] | null;
+  data?: studentInternshipDTO[];
 }
 
-export async function fetchAllStudentsDataForAdmin(): Promise<Response> {
+interface indivisualStudentReponse {
+  success: boolean;
+  message: string;
+  data?: studentInternshipDTO;
+}
+
+export async function fetchAllStudentsDataForAdmin(): Promise<allStudentResponse> {
   try {
     const response = await getAllStudentsDataForAdmin();
     return {
@@ -23,17 +29,25 @@ export async function fetchAllStudentsDataForAdmin(): Promise<Response> {
     return {
       success: false,
       message: "Failed to fetch student internship data",
-      data: null,
+      data: undefined,
     };
   }
 }
 
-export async function fetchStudentDataForStudent(): Promise<Response> {
+export async function fetchStudentDataForStudent(): Promise<indivisualStudentReponse> {
   try {
     const response = await getStudentDataForStudent();
+    if (response.success) {
+      return {
+        success: response.success,
+        message: response.message,
+        data: response.data,
+      };
+    }
+
     return {
-      success: true,
-      message: "Student Internship Data fetched successfully by ID",
+      success: false,
+      message: response.message,
       data: response.data,
     };
   } catch (err) {
@@ -41,7 +55,7 @@ export async function fetchStudentDataForStudent(): Promise<Response> {
     return {
       success: false,
       message: "Failed to fetch student internship data by ID",
-      data: null,
+      data: undefined,
     };
   }
 }
