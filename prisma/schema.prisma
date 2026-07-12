@@ -37,11 +37,10 @@ model Internship {
   sourceOfInternship  String
   internshipType      String
   role                String
-  duration            Int
-  startDate           String
-  endDate             String
+  startDate           DateTime
+  endDate             DateTime
   stipend             Boolean
-  stipendAmount       String?
+  stipendAmount       Decimal?
   ppo                 Boolean
   ppoProof            String?
   organisationName    String
