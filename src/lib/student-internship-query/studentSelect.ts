@@ -1,5 +1,17 @@
 import { Prisma } from "@/generated/prisma/client";
 
+export const studentProfileSelect = {
+  studentId: true,
+  studentName: true,
+  studentUniversityRollNo: true,
+  studentEmail: true,
+  studentContact: true,
+  studentGender: true,
+  studentSession: true,
+  studentSemester: true,
+  studentSection: true,
+} satisfies Prisma.StudentSelect;
+
 export const studentSelect = {
   studentId: true,
   studentName: true,
