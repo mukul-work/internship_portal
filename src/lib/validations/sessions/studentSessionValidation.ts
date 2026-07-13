@@ -27,13 +27,12 @@ export async function validateStudentSession({
     ...(select ? { select } : {}),
     ...(include ? { include } : {}),
   });
-
   if (!student) {
     return {
       success: false,
       message: "Student not found",
       status: 404,
-      data: null,
+      data: undefined,
     };
   }
 
