@@ -3,11 +3,13 @@ import { Prisma } from "@/generated/prisma/client";
 import { validateStudentSession } from "@/lib/validations/sessions/studentSessionValidation";
 import { validateStudentRequest } from "@/lib/validations/student-input/validateStudentRequest";
 import { prisma } from "@/lib/prisma";
-
+import { studentProfileSelect } from "@/lib/student-internship-query/studentSelect";
 export async function GET(request: Request) {
   try {
     // Session Validation
-    const studentValidationResult = await validateStudentSession();
+    const studentValidationResult = await validateStudentSession({
+      select: studentProfileSelect,
+    });
 
     return NextResponse.json(
       {
@@ -20,7 +22,7 @@ export async function GET(request: Request) {
   } catch (error: any) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
-        { success: false, message: error.message, data: null },
+        { success: false, message: error.message, data: null, error: error },
         {
           status: 400,
         },
@@ -30,7 +32,12 @@ export async function GET(request: Request) {
     console.error(error);
 
     return NextResponse.json(
-      { success: false, message: "Internal Server Error", data: null },
+      {
+        success: false,
+        message: "Internal Server Error",
+        data: null,
+        error: error,
+      },
       {
         status: 500,
       },
@@ -80,9 +87,6 @@ export async function PATCH(request: Request) {
         ...result.data,
         studentId: studentValidationResult.data.studentId,
       },
-      include: {
-        studentInternships: true,
-      },
     });
 
     return NextResponse.json(
@@ -96,7 +100,7 @@ export async function PATCH(request: Request) {
   } catch (error: any) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
-        { success: false, message: error.message, data: null },
+        { success: false, message: error.message, data: null, error: error },
         {
           status: 400,
         },
@@ -106,7 +110,12 @@ export async function PATCH(request: Request) {
     console.error(error);
 
     return NextResponse.json(
-      { success: true, message: "Internal Server Error", data: null },
+      {
+        success: true,
+        message: "Internal Server Error",
+        data: null,
+        error: error,
+      },
       {
         status: 500,
       },

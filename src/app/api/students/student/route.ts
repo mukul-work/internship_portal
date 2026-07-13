@@ -3,16 +3,14 @@ import { NextResponse } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
 import { validateStudentSession } from "@/lib/validations/sessions/studentSessionValidation";
 import { validateStudentRequest } from "@/lib/validations/student-input/validateStudentRequest";
+import { studentSelect } from "@/lib/student-internship-query/studentSelect";
 
 export async function GET(request: Request) {
   try {
     // Session Validation
     const studentValidationResult = await validateStudentSession({
-      include: {
-        studentInternships: true,
-      },
+      select: studentSelect,
     });
-
     return NextResponse.json(
       {
         success: studentValidationResult.success,
@@ -24,7 +22,7 @@ export async function GET(request: Request) {
   } catch (error: any) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
-        { success: false, message: error.message, data: null },
+        { success: false, message: error.message, data: null, error: error },
         {
           status: 400,
         },
@@ -34,7 +32,12 @@ export async function GET(request: Request) {
     console.error(error);
 
     return NextResponse.json(
-      { success: false, message: "Internal Server Error", data: null },
+      {
+        success: false,
+        message: "Internal Server Error",
+        data: null,
+        error: error,
+      },
       {
         status: 500,
       },
