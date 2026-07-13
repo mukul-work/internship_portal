@@ -1,22 +1,7 @@
-import { studentInternshipDTO } from "@/types/student-internship.dto";
-import { studentPATCH } from "@/types/student.PATCH";
+import { studentProfileDTO } from "@/types/student-internship.dto";
 import { cookies } from "next/headers";
 
-interface allStudentResponse {
-  success: boolean;
-  message: string;
-  data?: studentInternshipDTO[];
-  error?: string;
-}
-
-interface indivisualStudentReponse {
-  success: boolean;
-  message: string;
-  data?: studentInternshipDTO;
-  error?: string;
-}
-
-export async function getAllStudentsDataForAdmin(): Promise<allStudentResponse> {
+export async function getAllStudentsDataForAdmin() {
   const cookieStore = await cookies();
   const response = await fetch(
     `${process.env.NEXTAUTH_URL}/api/admin/students`,
@@ -30,7 +15,7 @@ export async function getAllStudentsDataForAdmin(): Promise<allStudentResponse> 
   return response.json();
 }
 
-export async function getStudentDataForStudent(): Promise<indivisualStudentReponse> {
+export async function getStudentDataForStudent() {
   const cookieStore = await cookies();
   const response = await fetch(
     `${process.env.NEXTAUTH_URL}/api/students/student`,
@@ -41,24 +26,27 @@ export async function getStudentDataForStudent(): Promise<indivisualStudentRepon
     },
   );
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    return {
-      success: false,
-      message: "Error while fetching student data",
-      data: undefined,
-      error: errorText,
-    };
-  }
   return response.json();
 }
 
-export async function patchStudentDataForStudent(
-  data: studentPATCH,
-): Promise<Response> {
+export async function getStudentProfileForStudent() {
   const cookieStore = await cookies();
   const response = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/students/${data.studentId}`,
+    `${process.env.NEXTAUTH_URL}/api/students/student/profile`,
+    {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    },
+  );
+
+  return response.json();
+}
+
+export async function patchStudentProfileForStudent(data: studentProfileDTO) {
+  const cookieStore = await cookies();
+  const response = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/students/student/profile`,
     {
       method: "PATCH",
       headers: {

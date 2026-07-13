@@ -1,29 +1,32 @@
-import { patchStudentDataForStudent } from "../data/students.dal";
-import { studentInternshipDTO } from "@/types/student-internship.dto";
-import { studentPATCH } from "@/types/student.PATCH";
+"use server";
 
-interface Response {
+import { patchStudentProfileForStudent } from "../data/students.dal";
+import { studentProfileDTO } from "@/types/student-internship.dto";
+
+interface StudentResponse<T> {
   success: boolean;
   message: string;
-  data: studentInternshipDTO | studentInternshipDTO[] | null;
+  data?: T;
+  error?: string;
 }
 
 export async function updateStudentDataForStudent(
-  data: studentPATCH,
-): Promise<Response> {
+  data: studentProfileDTO,
+): Promise<StudentResponse<studentProfileDTO>> {
   try {
-    const response = await patchStudentDataForStudent(data);
+    const response = await patchStudentProfileForStudent(data);
     return {
       success: response.success,
       message: response.message,
       data: response.data,
     };
-  } catch (err) {
+  } catch (err: any) {
     console.error("Error: ", err);
     return {
       success: false,
       message: "Failed to update student data",
-      data: null,
+      data: undefined,
+      error: err,
     };
   }
 }
