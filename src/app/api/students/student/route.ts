@@ -7,7 +7,11 @@ import { validateStudentRequest } from "@/lib/validations/student-input/validate
 export async function GET(request: Request) {
   try {
     // Session Validation
-    const studentValidationResult = await validateStudentSession();
+    const studentValidationResult = await validateStudentSession({
+      include: {
+        studentInternships: true,
+      },
+    });
 
     return NextResponse.json(
       {
@@ -41,7 +45,11 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request) {
   try {
     // Session validation
-    const studentValidationResult = await validateStudentSession();
+    const studentValidationResult = await validateStudentSession({
+      select: {
+        studentId: true,
+      },
+    });
 
     if (!studentValidationResult.data) {
       return NextResponse.json(

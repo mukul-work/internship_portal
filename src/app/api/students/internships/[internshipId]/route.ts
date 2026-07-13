@@ -4,7 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { validateInternshipPATCHRequest } from "@/lib/validations/internship-input/validateInternshipRequest";
 import { Prisma } from "@/generated/prisma/client";
 import { validateInternship } from "@/lib/validations/internship-input/internshipValidation";
-import { success } from "zod";
 
 export async function GET(
   request: Request,
@@ -14,7 +13,11 @@ export async function GET(
     const { internshipId } = await params;
 
     // Session validation
-    const studentValidationResult = await validateStudentSession();
+    const studentValidationResult = await validateStudentSession({
+      select: {
+        studentId: true,
+      },
+    });
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
@@ -83,7 +86,11 @@ export async function PATCH(
     const { internshipId } = await params;
 
     // Session validation
-    const studentValidationResult = await validateStudentSession();
+    const studentValidationResult = await validateStudentSession({
+      select: {
+        studentId: true,
+      },
+    });
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
@@ -176,7 +183,11 @@ export async function DELETE(
     const { internshipId } = await params;
 
     // Session validation
-    const studentValidationResult = await validateStudentSession();
+    const studentValidationResult = await validateStudentSession({
+      select: {
+        studentId: true,
+      },
+    });
 
     if (!studentValidationResult.data) {
       return NextResponse.json(

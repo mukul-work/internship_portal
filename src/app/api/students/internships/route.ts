@@ -3,16 +3,14 @@ import { NextResponse } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
 import { validateInternshipPOSTRequest } from "@/lib/validations/internship-input/validateInternshipRequest";
 import { validateStudentSession } from "@/lib/validations/sessions/studentSessionValidation";
-import { success } from "zod";
-export const POST = async (
-  request: Request,
-  // { params }: { params: Promise<{ studentId: string }> },
-) => {
+export const POST = async (request: Request) => {
   try {
-    // const { studentId } = await params;
-
     // Session Validation
-    const studentValidationResult = await validateStudentSession();
+    const studentValidationResult = await validateStudentSession({
+      select: {
+        studentId: true,
+      },
+    });
 
     if (!studentValidationResult.data) {
       return NextResponse.json(
