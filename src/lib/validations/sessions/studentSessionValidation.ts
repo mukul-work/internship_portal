@@ -1,9 +1,15 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth";
 import { prisma } from "@/lib/prisma";
-import { studentInputSchema } from "../student-input/studentInput";
+import { Prisma } from "@/generated/prisma/client";
 
-export async function validateStudentSession() {
+export async function validateStudentSession({
+  select,
+  include,
+}: {
+  select?: Prisma.StudentSelect;
+  include?: Prisma.StudentInclude;
+} = {}) {
   const session = await getServerSession(authOptions);
 
   if (!(session?.user?.role === "STUDENT")) {
@@ -15,11 +21,11 @@ export async function validateStudentSession() {
   }
 
   const student = await prisma.student.findUnique({
-    where: { studentEmail: session.user.email },
-
-    include: {
-      studentInternships: true,
+    where: {
+      studentEmail: session.user.email,
     },
+    ...(select ? { select } : {}),
+    ...(include ? { include } : {}),
   });
 
   if (!student) {
@@ -31,16 +37,6 @@ export async function validateStudentSession() {
     };
   }
 
-  // const id = Number(studentId);
-
-  // if (id !== student.studentId) {
-  //   return {
-  //     success: false,
-  //     message: "Invalid StudentId",
-  //     status: 400,
-  //     data: null,
-  //   };
-  // }
   return {
     success: true,
     message: "Student authorised and found",
