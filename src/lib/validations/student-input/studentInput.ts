@@ -6,7 +6,7 @@ export const studentInputSchema = z.object({
   studentUniversityRollNo: z.string().min(1),
   studentEmail: z.string().min(1),
   studentContact: z.string().min(1),
-  studentGender: z.enum(["Male", "Female", "Other"]),
+  studentGender: z.enum(["MALE", "FEMALE", "OTHER"]),
   studentSession: z.enum(["2027", "2028", "2029"]),
   studentSemester: z.enum(["2", "4", "6"]),
   studentSection: z.enum(["A", "B", "C", "D", "E"]),
