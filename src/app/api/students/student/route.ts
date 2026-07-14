@@ -1,23 +1,37 @@
-import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
 import { validateStudentSession } from "@/lib/validations/sessions/studentSessionValidation";
-import { validateStudentRequest } from "@/lib/validations/student-input/validateStudentRequest";
+import { getStudentDataByEmail } from "@/lib/getData/getStudentDataByEmail";
 import { studentSelect } from "@/lib/student-internship-query/studentSelect";
 
 export async function GET(request: Request) {
   try {
     // Session Validation
-    const studentValidationResult = await validateStudentSession({
+    const studentValidationResult = await validateStudentSession();
+    if (!studentValidationResult.success) {
+      return NextResponse.json(
+        {
+          success: studentValidationResult.success,
+          message: studentValidationResult.message,
+          data: studentValidationResult.data,
+        },
+        { status: studentValidationResult.status },
+      );
+    }
+
+    //Fetch Data
+    const response = await getStudentDataByEmail({
+      email: studentValidationResult.data?.email!,
       select: studentSelect,
     });
+
     return NextResponse.json(
       {
-        success: studentValidationResult.success,
-        message: studentValidationResult.message,
-        data: studentValidationResult.data,
+        success: response.success,
+        message: response.message,
+        data: response.data,
       },
-      { status: studentValidationResult.status },
+      { status: response.status },
     );
   } catch (error: any) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {

@@ -3,16 +3,14 @@ import { NextResponse } from "next/server";
 import { Prisma } from "@/generated/prisma/client";
 import { validateInternshipPOSTRequest } from "@/lib/validations/internship-input/validateInternshipRequest";
 import { validateStudentSession } from "@/lib/validations/sessions/studentSessionValidation";
+import { getStudentDataByEmail } from "@/lib/getData/getStudentDataByEmail";
+
 export const POST = async (request: Request) => {
   try {
     // Session Validation
-    const studentValidationResult = await validateStudentSession({
-      select: {
-        studentId: true,
-      },
-    });
+    const studentValidationResult = await validateStudentSession();
 
-    if (!studentValidationResult.data) {
+    if (!studentValidationResult.success) {
       return NextResponse.json(
         {
           success: studentValidationResult.success,
@@ -20,6 +18,25 @@ export const POST = async (request: Request) => {
           data: studentValidationResult.data,
         },
         { status: studentValidationResult.status },
+      );
+    }
+
+    //Fetch Student Id
+    const response = await getStudentDataByEmail({
+      email: studentValidationResult.data?.email!,
+      select: {
+        studentId: true,
+      },
+    });
+
+    if (!response.success) {
+      return NextResponse.json(
+        {
+          success: response.success,
+          message: response.message,
+          data: response.data,
+        },
+        { status: response.status },
       );
     }
 
@@ -36,7 +53,7 @@ export const POST = async (request: Request) => {
     const internship = await prisma.internship.create({
       data: {
         ...result.data!,
-        studentId: studentValidationResult.data.studentId,
+        studentId: response.data!.studentId,
         startDate: new Date(result.data!.startDate),
         endDate: new Date(result.data!.endDate),
       },

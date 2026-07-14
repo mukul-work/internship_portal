@@ -4,20 +4,36 @@ import { validateStudentSession } from "@/lib/validations/sessions/studentSessio
 import { validateStudentRequest } from "@/lib/validations/student-input/validateStudentRequest";
 import { prisma } from "@/lib/prisma";
 import { studentProfileSelect } from "@/lib/student-internship-query/studentSelect";
+import { getStudentDataByEmail } from "@/lib/getData/getStudentDataByEmail";
+
 export async function GET(request: Request) {
   try {
     // Session Validation
-    const studentValidationResult = await validateStudentSession({
+    const studentValidationResult = await validateStudentSession();
+    if (!studentValidationResult.success) {
+      return NextResponse.json(
+        {
+          success: studentValidationResult.success,
+          message: studentValidationResult.message,
+          data: studentValidationResult.data,
+        },
+        { status: studentValidationResult.status },
+      );
+    }
+
+    //Fetch Data
+    const response = await getStudentDataByEmail({
+      email: studentValidationResult.data?.email!,
       select: studentProfileSelect,
     });
 
     return NextResponse.json(
       {
-        success: studentValidationResult.success,
-        message: studentValidationResult.message,
-        data: studentValidationResult.data,
+        success: response.success,
+        message: response.message,
+        data: response.data,
       },
-      { status: studentValidationResult.status },
+      { status: response.status },
     );
   } catch (error: any) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -47,14 +63,9 @@ export async function GET(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    // Session validation
-    const studentValidationResult = await validateStudentSession({
-      select: {
-        studentId: true,
-      },
-    });
-
-    if (!studentValidationResult.data) {
+    // Session Validation
+    const studentValidationResult = await validateStudentSession();
+    if (!studentValidationResult.success) {
       return NextResponse.json(
         {
           success: studentValidationResult.success,
@@ -78,13 +89,13 @@ export async function PATCH(request: Request) {
     // Update Student
     const updated = await prisma.student.update({
       where: {
-        studentId: studentValidationResult.data.studentId,
+        studentEmail: studentValidationResult.data?.email,
       },
       data: {
         ...result.data,
       },
       select: {
-        studentId: true,
+        studentEmail: true,
       },
     });
 

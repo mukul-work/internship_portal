@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { validateInternshipPATCHRequest } from "@/lib/validations/internship-input/validateInternshipRequest";
 import { Prisma } from "@/generated/prisma/client";
 import { validateInternship } from "@/lib/validations/internship-input/internshipValidation";
-import { date } from "zod";
+import { getStudentDataByEmail } from "@/lib/getData/getStudentDataByEmail";
 
 export async function GET(
   request: Request,
@@ -14,13 +14,8 @@ export async function GET(
     const { internshipId } = await params;
 
     // Session validation
-    const studentValidationResult = await validateStudentSession({
-      select: {
-        studentId: true,
-      },
-    });
-
-    if (!studentValidationResult.data) {
+    const studentValidationResult = await validateStudentSession();
+    if (!studentValidationResult.success) {
       return NextResponse.json(
         {
           success: studentValidationResult.success,
@@ -31,11 +26,30 @@ export async function GET(
       );
     }
 
+    //Fetch Data
+    const response = await getStudentDataByEmail({
+      email: studentValidationResult.data?.email!,
+      select: {
+        studentId: true,
+      },
+    });
+
+    if (!response.success) {
+      return NextResponse.json(
+        {
+          success: response.success,
+          message: response.message,
+          data: response.data,
+        },
+        { status: response.status },
+      );
+    }
+
     // Internship Validation
     const id = Number(internshipId);
     const internshipValidationResult = await validateInternship(
       id,
-      studentValidationResult.data.studentId,
+      response.data!.studentId,
     );
 
     if (!internshipValidationResult.success) {
@@ -89,13 +103,8 @@ export async function PATCH(
     const { internshipId } = await params;
 
     // Session validation
-    const studentValidationResult = await validateStudentSession({
-      select: {
-        studentId: true,
-      },
-    });
-
-    if (!studentValidationResult.data) {
+    const studentValidationResult = await validateStudentSession();
+    if (!studentValidationResult.success) {
       return NextResponse.json(
         {
           success: studentValidationResult.success,
@@ -103,6 +112,25 @@ export async function PATCH(
           data: studentValidationResult.data,
         },
         { status: studentValidationResult.status },
+      );
+    }
+
+    //Fetch Data
+    const response = await getStudentDataByEmail({
+      email: studentValidationResult.data?.email!,
+      select: {
+        studentId: true,
+      },
+    });
+
+    if (!response.success) {
+      return NextResponse.json(
+        {
+          success: response.success,
+          message: response.message,
+          data: response.data,
+        },
+        { status: response.status },
       );
     }
 
@@ -120,7 +148,7 @@ export async function PATCH(
     // Internship Validation
     const internshipValidationResult = await validateInternship(
       id,
-      studentValidationResult.data.studentId,
+      response.data!.studentId,
     );
 
     if (!internshipValidationResult.success) {
@@ -143,8 +171,12 @@ export async function PATCH(
       },
       data: {
         ...result.data,
-        startDate: new Date(result.data!.startDate),
-        endDate: new Date(result.data!.endDate),
+        ...(result.data?.startDate && {
+          startDate: new Date(result.data.startDate),
+        }),
+        ...(result.data?.endDate && {
+          endDate: new Date(result.data.endDate),
+        }),
       },
       select: {
         internshipId: true,
@@ -188,13 +220,8 @@ export async function DELETE(
     const { internshipId } = await params;
 
     // Session validation
-    const studentValidationResult = await validateStudentSession({
-      select: {
-        studentId: true,
-      },
-    });
-
-    if (!studentValidationResult.data) {
+    const studentValidationResult = await validateStudentSession();
+    if (!studentValidationResult.success) {
       return NextResponse.json(
         {
           success: studentValidationResult.success,
@@ -205,11 +232,29 @@ export async function DELETE(
       );
     }
 
+    //Fetch Data
+    const response = await getStudentDataByEmail({
+      email: studentValidationResult.data?.email!,
+      select: {
+        studentId: true,
+      },
+    });
+
+    if (!response.success) {
+      return NextResponse.json(
+        {
+          success: response.success,
+          message: response.message,
+          data: response.data,
+        },
+        { status: response.status },
+      );
+    }
     // Internship Validation
     const id = Number(internshipId);
     const internshipValidationResult = await validateInternship(
       id,
-      studentValidationResult.data.studentId,
+      response.data!.studentId,
     );
 
     if (!internshipValidationResult.success) {
