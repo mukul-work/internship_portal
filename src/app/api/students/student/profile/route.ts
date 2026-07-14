@@ -66,10 +66,7 @@ export async function PATCH(request: Request) {
     }
 
     // Request Validation
-    const result = await validateStudentRequest(
-      request,
-      studentValidationResult.data.studentId,
-    );
+    const result = await validateStudentRequest(request);
 
     if (!result.success) {
       return NextResponse.json(
@@ -85,7 +82,9 @@ export async function PATCH(request: Request) {
       },
       data: {
         ...result.data,
-        studentId: studentValidationResult.data.studentId,
+      },
+      select: {
+        studentId: true,
       },
     });
 
