@@ -1,17 +1,17 @@
 export interface internshipPATCH {
   internshipId: number;
-  studentId: number;
-  sourceOfInternship: string;
+  internshipSemester: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8";
+  sourceOfInternship: "SELF" | "IIPC" | "DEPT";
   internshipType: string;
   role: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   stipend: boolean;
   stipendAmount?: string;
   ppo: boolean;
   ppoProof?: string;
   organisationName: string;
   organisationAddress: string;
-  status: "completed" | "inProgress";
+  status: "COMPLETED" | "ONGOING";
   completionProof?: string;
 }

@@ -34,6 +34,7 @@ model Student {
 model Internship {
   internshipId        Int      @id @default(autoincrement())
   studentId           Int
+  internshipSemester  String
   sourceOfInternship  String
   internshipType      String
   role                String

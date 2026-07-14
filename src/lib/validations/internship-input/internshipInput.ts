@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const internshipInputSchemaPOST = z.object({
-  studentId: z.number().int().positive(),
+  internshipSemester: z.enum(["1", "2", "3", "4", "5", "6", "7", "8"]),
   sourceOfInternship: z.enum(["SELF", "IIPC", "DEPT"]),
   internshipType: z.enum(["REMOTE", "ONSITE", "HYBRID"]),
   role: z.string().min(1),
@@ -21,7 +21,7 @@ export type InternshipInputPOST = z.infer<typeof internshipInputSchemaPOST>;
 
 export const internshipInputSchemaPATCH = z.object({
   internshpiId: z.number().int().positive(),
-  studentId: z.number().int().positive(),
+  internshipSemester: z.enum(["1", "2", "3", "4", "5", "6", "7", "8"]),
   sourceOfInternship: z.enum(["SELF", "IIPC", "DEPT"]),
   internshipType: z.enum(["REMOTE", "ONSITE", "HYBRID"]),
   role: z.string().min(1),

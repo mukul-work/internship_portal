@@ -1,6 +1,7 @@
 export interface InternshipDTO {
   internshipId: number;
   studentId: number;
+  internshipSemester: "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8";
   sourceOfInternship: "SELF" | "IIPC" | "DEPT";
   internshipType: string;
   role: string;
