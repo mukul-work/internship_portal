@@ -9,7 +9,7 @@ export async function validateStudentSession({
 }: {
   select?: Prisma.StudentSelect;
   include?: Prisma.StudentInclude;
-} = {}) {
+}) {
   const session = await getServerSession(authOptions);
 
   if (!(session?.user?.role === "STUDENT")) {
