@@ -108,7 +108,7 @@ export async function PATCH(
 
     // Request Validation
     const id = Number(internshipId);
-    const result = await validateInternshipPATCHRequest(request, id);
+    const result = await validateInternshipPATCHRequest(request);
 
     if (!result.success) {
       return NextResponse.json(
@@ -143,7 +143,11 @@ export async function PATCH(
       },
       data: {
         ...result.data,
-        studentId: studentValidationResult.data.studentId,
+        startDate: new Date(result.data!.startDate),
+        endDate: new Date(result.data!.endDate),
+      },
+      select: {
+        internshipId: true,
       },
     });
 
@@ -168,7 +172,7 @@ export async function PATCH(
     console.error(error);
 
     return NextResponse.json(
-      { success: true, message: "Internal Server Error", data: undefined },
+      { success: false, message: "Internal Server Error", data: undefined },
       {
         status: 500,
       },
