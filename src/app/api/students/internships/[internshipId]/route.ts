@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { validateInternshipPATCHRequest } from "@/lib/validations/internship-input/validateInternshipRequest";
 import { Prisma } from "@/generated/prisma/client";
 import { validateInternship } from "@/lib/validations/internship-input/internshipValidation";
+import { date } from "zod";
 
 export async function GET(
   request: Request,
@@ -24,6 +25,7 @@ export async function GET(
         {
           success: studentValidationResult.success,
           message: studentValidationResult.message,
+          data: studentValidationResult.data,
         },
         { status: studentValidationResult.status },
       );
@@ -41,6 +43,7 @@ export async function GET(
         {
           success: internshipValidationResult.success,
           message: internshipValidationResult.message,
+          data: internshipValidationResult.data,
         },
         {
           status: internshipValidationResult.status,
@@ -60,7 +63,7 @@ export async function GET(
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
-        { success: false, message: error.message },
+        { success: false, message: error.message, data: undefined },
         {
           status: 400,
         },
@@ -70,7 +73,7 @@ export async function GET(
     console.error(error);
 
     return NextResponse.json(
-      { success: false, message: "Internal Server Error" },
+      { success: false, message: "Internal Server Error", data: undefined },
       {
         status: 500,
       },
@@ -97,6 +100,7 @@ export async function PATCH(
         {
           success: studentValidationResult.success,
           message: studentValidationResult.message,
+          data: studentValidationResult.data,
         },
         { status: studentValidationResult.status },
       );
@@ -104,15 +108,11 @@ export async function PATCH(
 
     // Request Validation
     const id = Number(internshipId);
-    const result = await validateInternshipPATCHRequest(
-      request,
-      id,
-      studentValidationResult.data.studentId,
-    );
+    const result = await validateInternshipPATCHRequest(request, id);
 
     if (!result.success) {
       return NextResponse.json(
-        { success: result.success, message: result.message },
+        { success: result.success, message: result.message, data: result.data },
         { status: result.status },
       );
     }
@@ -128,6 +128,7 @@ export async function PATCH(
         {
           success: internshipValidationResult.success,
           message: internshipValidationResult.message,
+          data: internshipValidationResult.data,
         },
         {
           status: internshipValidationResult.status,
@@ -157,7 +158,7 @@ export async function PATCH(
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
-        { success: false, message: error.message },
+        { success: false, message: error.message, data: undefined },
         {
           status: 400,
         },
@@ -167,7 +168,7 @@ export async function PATCH(
     console.error(error);
 
     return NextResponse.json(
-      { success: true, message: "Internal Server Error" },
+      { success: true, message: "Internal Server Error", data: undefined },
       {
         status: 500,
       },
@@ -194,6 +195,7 @@ export async function DELETE(
         {
           success: studentValidationResult.success,
           message: studentValidationResult.message,
+          data: studentValidationResult.data,
         },
         { status: studentValidationResult.status },
       );
@@ -211,6 +213,7 @@ export async function DELETE(
         {
           success: internshipValidationResult.success,
           message: internshipValidationResult.message,
+          data: internshipValidationResult.data,
         },
         {
           status: internshipValidationResult.status,
@@ -219,20 +222,24 @@ export async function DELETE(
     }
 
     // Delete Internship
-    await prisma.internship.delete({
+    const deleted = await prisma.internship.delete({
       where: {
         internshipId: id,
       },
     });
 
     return NextResponse.json(
-      { success: true, message: "Internship Deleted successfully" },
+      {
+        success: true,
+        message: "Internship Deleted successfully",
+        data: deleted,
+      },
       { status: 200 },
     );
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       return NextResponse.json(
-        { success: false, message: error.message },
+        { success: false, message: error.message, data: undefined },
         {
           status: 400,
         },
@@ -242,7 +249,7 @@ export async function DELETE(
     console.error(error);
 
     return NextResponse.json(
-      { success: false, message: "Internal Server Error" },
+      { success: false, message: "Internal Server Error", undefined },
       {
         status: 500,
       },

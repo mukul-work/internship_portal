@@ -24,10 +24,7 @@ export const POST = async (request: Request) => {
     }
 
     // Request Validation
-    const result = await validateInternshipPOSTRequest(
-      request,
-      studentValidationResult.data.studentId,
-    );
+    const result = await validateInternshipPOSTRequest(request);
 
     if (!result.success) {
       return NextResponse.json(
@@ -42,6 +39,9 @@ export const POST = async (request: Request) => {
         studentId: studentValidationResult.data.studentId,
         startDate: new Date(result.data!.startDate),
         endDate: new Date(result.data!.endDate),
+      },
+      select: {
+        internshipId: true,
       },
     });
 
