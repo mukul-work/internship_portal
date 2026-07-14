@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { success } from "zod";
 
 export async function validateInternship(
   internshipId: number,
@@ -10,7 +9,7 @@ export async function validateInternship(
       message: "Invalid internship id",
       status: 400,
       success: false,
-      data: null,
+      data: undefined,
     };
   }
 
@@ -26,7 +25,7 @@ export async function validateInternship(
       message: "No internship found or access denied",
       status: 404,
       success: false,
-      data: null,
+      data: undefined,
     };
   }
 

@@ -37,7 +37,6 @@ export async function validateInternshipPOSTRequest(
 
 export async function validateInternshipPATCHRequest(
   request: Request,
-  internshipId: number,
 ): Promise<internshipValidationResult> {
   const body = await request.json();
 
@@ -49,15 +48,6 @@ export async function validateInternshipPATCHRequest(
       status: 400,
       message: "Invalid Request",
       data: null,
-    };
-  }
-
-  if (result.data.internshpiId !== internshipId) {
-    return {
-      success: false,
-      message: "Invalid internship Id",
-      data: null,
-      status: 400,
     };
   }
 
