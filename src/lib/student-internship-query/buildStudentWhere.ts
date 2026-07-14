@@ -1,5 +1,5 @@
 import { Prisma } from "@/generated/prisma/client";
-import { StudentQuery } from "@/lib/validations/studentQuery.type";
+import { StudentQuery } from "@/lib/validations/student-input/studentQuery.type";
 
 export function buildStudentWhere(
   query: StudentQuery,

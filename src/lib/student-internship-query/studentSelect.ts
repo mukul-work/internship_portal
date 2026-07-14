@@ -26,6 +26,7 @@ export const studentSelect = {
     select: {
       internshipId: true,
       studentId: true,
+      internshipSemester: true,
       sourceOfInternship: true,
       internshipType: true,
       role: true,

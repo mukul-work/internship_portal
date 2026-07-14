@@ -1,4 +1,4 @@
-import { studentQuerySchema } from "@/lib/validations/studentQuery.type";
+import { studentQuerySchema } from "@/lib/validations/student-input/studentQuery.type";
 
 export default function (searchParams: URLSearchParams) {
   const result = studentQuerySchema.safeParse({
