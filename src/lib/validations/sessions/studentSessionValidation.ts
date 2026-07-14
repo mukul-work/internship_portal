@@ -3,13 +3,7 @@ import { authOptions } from "../../auth";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 
-export async function validateStudentSession({
-  select,
-  include,
-}: {
-  select?: Prisma.StudentSelect;
-  include?: Prisma.StudentInclude;
-}) {
+export async function validateStudentSession() {
   const session = await getServerSession(authOptions);
 
   if (!(session?.user?.role === "STUDENT")) {
@@ -25,26 +19,12 @@ export async function validateStudentSession({
     return { message: "Email not found", status: 400, data: undefined };
   }
 
-  const student = await prisma.student.findUnique({
-    where: {
-      studentEmail: session.user.email,
-    },
-    ...(select ? { select } : {}),
-    ...(include ? { include } : {}),
-  });
-  if (!student) {
-    return {
-      success: false,
-      message: "Student not found",
-      status: 404,
-      data: undefined,
-    };
-  }
-
   return {
     success: true,
-    message: "Student authorised and found",
+    message: "Student authorised",
     status: 200,
-    data: student,
+    data: {
+      email: session.user.email,
+    },
   };
 }
