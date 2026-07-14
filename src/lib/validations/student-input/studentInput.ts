@@ -3,7 +3,6 @@ import { z } from "zod";
 export const studentInputSchema = z.object({
   studentName: z.string().min(1).optional(),
   studentUniversityRollNo: z.string().min(1).optional(),
-  studentEmail: z.string().min(1).optional(),
   studentContact: z.string().min(1).optional(),
   studentGender: z.enum(["MALE", "FEMALE", "OTHER"]).optional(),
   studentSession: z.enum(["2027", "2028", "2029"]).optional(),
