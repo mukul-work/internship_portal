@@ -55,7 +55,7 @@ export async function validateInternshipPATCHRequest(
   if (result.data.internshpiId !== internshipId) {
     return {
       success: false,
-      message: "Invalid student Id",
+      message: "Invalid internship Id",
       data: null,
       status: 400,
     };

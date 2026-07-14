@@ -14,26 +14,22 @@ export async function validateInternship(
     };
   }
 
-  const internship = await prisma.internship.findUnique({
-    where: { internshipId },
+  const internship = await prisma.internship.findFirst({
+    where: {
+      internshipId,
+      studentId,
+    },
   });
 
   if (!internship) {
     return {
-      message: "No internship found",
+      message: "No internship found or access denied",
       status: 404,
       success: false,
       data: null,
     };
   }
-  if (internship.studentId !== studentId) {
-    return {
-      success: false,
-      message: "Access forbidden - Invalid student ID",
-      status: 400,
-      data: null,
-    };
-  }
+
   return {
     mesage: "Internship is valid",
     status: 200,
