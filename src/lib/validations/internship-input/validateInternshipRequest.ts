@@ -4,16 +4,16 @@ import {
 } from "@/lib/validations//internship-input/internshipInput";
 import { InternshipInputPOST, InternshipInputPATCH } from "./internshipInput";
 
-type internshipValidationResult = {
+type internshipValidationResult<T> = {
   success: boolean;
   status: number;
   message: string;
-  data: InternshipInputPOST | InternshipInputPATCH | null;
+  data: T | null;
 };
 
 export async function validateInternshipPOSTRequest(
   request: Request,
-): Promise<internshipValidationResult> {
+): Promise<internshipValidationResult<InternshipInputPOST>> {
   const body = await request.json();
 
   const result = internshipInputSchemaPOST.safeParse(body);
@@ -37,7 +37,7 @@ export async function validateInternshipPOSTRequest(
 
 export async function validateInternshipPATCHRequest(
   request: Request,
-): Promise<internshipValidationResult> {
+): Promise<internshipValidationResult<InternshipInputPATCH>> {
   const body = await request.json();
 
   const result = internshipInputSchemaPATCH.safeParse(body);
