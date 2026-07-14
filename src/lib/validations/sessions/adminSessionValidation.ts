@@ -1,37 +1,28 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@/generated/prisma/client";
 
-export async function validateAdminSessionAndFetchStudentById(
-  studentId: number,
-) {
+export async function validateAdminSession() {
   const session = await getServerSession(authOptions);
 
   if (!(session?.user?.role === "ADMIN")) {
-    return { success: false, message: "Unauthorised", status: 401, data: null };
-  }
-
-  const student = await prisma.student.findUnique({
-    where: { studentId: studentId },
-
-    include: {
-      studentInternships: true,
-    },
-  });
-
-  if (!student) {
     return {
       success: false,
-      message: "Student not found",
-      status: 404,
-      data: null,
+      message: "Unauthorised",
+      status: 401,
+      data: undefined,
     };
+  }
+
+  if (!session?.user?.email) {
+    return { message: "Email not found", status: 400, data: undefined };
   }
 
   return {
     success: true,
-    message: "Student authorised and found",
+    message: "Admin authorised",
     status: 200,
-    data: student,
+    data: session?.user?.email,
   };
 }
