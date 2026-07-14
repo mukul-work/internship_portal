@@ -13,11 +13,16 @@ export async function validateStudentSession({
   const session = await getServerSession(authOptions);
 
   if (!(session?.user?.role === "STUDENT")) {
-    return { success: false, message: "Unauthorised", status: 401, data: null };
+    return {
+      success: false,
+      message: "Unauthorised",
+      status: 401,
+      data: undefined,
+    };
   }
 
   if (!session?.user?.email) {
-    return { message: "Email not found", status: 400, data: null };
+    return { message: "Email not found", status: 400, data: undefined };
   }
 
   const student = await prisma.student.findUnique({
