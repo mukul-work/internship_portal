@@ -230,6 +230,9 @@ export async function DELETE(
       where: {
         internshipId: id,
       },
+      select: {
+        internshipId: true,
+      },
     });
 
     return NextResponse.json(
