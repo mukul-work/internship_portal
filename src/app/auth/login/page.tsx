@@ -16,7 +16,7 @@ export default function AdminLoginPage() {
       <button
         onClick={() =>
           signIn("google", {
-            callbackUrl: "/Internship-Module",
+            callbackUrl: "/students/details",
           })
         }
       >

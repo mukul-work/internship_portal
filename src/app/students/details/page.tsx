@@ -1,9 +1,9 @@
 import StudentDetails from "./_components/StudentDetails";
-import { fetchStudentDataForStudent } from "@/app/data/students.service";
+import { getStudentDataForStudentACTION } from "@/app/actions/students.action";
 import { StudentDataError } from "../_components/error/StudentError";
 
 export default async function StudentDetailsPage() {
-  const response = await fetchStudentDataForStudent();
+  const response = await getStudentDataForStudentACTION();
   if (!response.success) {
     return <StudentDataError />;
   }

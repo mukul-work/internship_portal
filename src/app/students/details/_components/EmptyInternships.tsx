@@ -3,26 +3,37 @@
 import { FileSearch, PlusCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 export default function EmptyInternships() {
+  const router = useRouter();
   return (
-    <Card className="border-dashed">
-      <CardContent className="flex min-h-[320px] flex-col items-center justify-center px-6 py-12 text-center">
-        <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border bg-muted">
-          <FileSearch className="h-10 w-10 text-muted-foreground" />
+    <Card className="overflow-hidden rounded-3xl border border-dashed border-border/60 bg-card shadow-sm">
+      <CardContent className="flex min-h-[420px] flex-col items-center justify-center px-8 py-16 text-center">
+        <div className="mb-8 flex h-24 w-24 items-center justify-center rounded-full border bg-muted/30">
+          <FileSearch className="h-11 w-11 text-muted-foreground" />
         </div>
 
-        <h3 className="text-xl font-semibold tracking-tight">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">
+          Internship Records
+        </p>
+
+        <h3 className="text-3xl font-bold tracking-tight">
           No internships found
         </h3>
 
-        <p className="mt-3 max-w-md text-sm leading-6 text-muted-foreground">
-          This student hasn't added any internship records yet. Once an
-          internship is submitted, it will appear here along with its details,
-          status and supporting documents.
+        <p className="mt-4 max-w-lg text-sm leading-7 text-muted-foreground">
+          This student hasn't added any internship records yet. Once an student
+          submits an internship, it will appear here together with its details,
+          current status, and supporting documents.
         </p>
 
-        <Button className="mt-8" disabled>
+        <Button
+          onClick={() => {
+            router.push("/internships/new");
+          }}
+          className="mt-10 rounded-xl px-6"
+        >
           <PlusCircle className="mr-2 h-4 w-4" />
           Add Internship
         </Button>

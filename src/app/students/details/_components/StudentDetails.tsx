@@ -5,7 +5,8 @@ import StudentProfile from "./StudentProfile";
 import StudentInfoCard from "./StudentInfoCard";
 import InternshipCard from "./InternshipCard";
 import EmptyInternships from "./EmptyInternships";
-
+import { Button } from "@base-ui/react/button";
+import { useRouter } from "next/navigation";
 import {
   Mail,
   Phone,
@@ -20,12 +21,16 @@ interface Props {
 }
 
 export default function StudentDetails({ data }: Props) {
+  const router = useRouter();
   if (!data) {
     return (
       <div className="container mx-auto flex min-h-[60vh] items-center justify-center px-6">
-        <div className="rounded-xl border bg-card p-10 text-center">
-          <h2 className="text-xl font-semibold">Student not found</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
+        <div className="rounded-3xl border bg-card px-12 py-10 text-center shadow-sm">
+          <h2 className="text-2xl font-semibold tracking-tight">
+            Student not found
+          </h2>
+
+          <p className="mt-3 text-sm text-muted-foreground">
             We couldn't find any information for this student.
           </p>
         </div>
@@ -36,19 +41,28 @@ export default function StudentDetails({ data }: Props) {
   const internships = data.studentInternships ?? [];
 
   return (
-    <main className="container mx-auto max-w-7xl space-y-8 px-6 py-8">
-      {/* ---------- Header ---------- */}
+    <main className="container mx-auto max-w-7xl space-y-14 px-6 py-10">
       <StudentProfile student={data} />
+      <Button
+        onClick={() => {
+          router.push(`/students/details/edit`);
+        }}
+      >
+        Click me
+      </Button>
+      <section className="space-y-8">
+        <div className="space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">
+            Student Details
+          </p>
 
-      {/* ---------- Student Information ---------- */}
-      <section className="space-y-5">
-        <div>
-          <h2 className="text-2xl font-semibold tracking-tight">
+          <h2 className="text-3xl font-bold tracking-tight">
             Student Information
           </h2>
 
-          <p className="text-sm text-muted-foreground">
-            Academic and contact information.
+          <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+            Academic details and contact information associated with this
+            student.
           </p>
         </div>
 
@@ -91,15 +105,18 @@ export default function StudentDetails({ data }: Props) {
         </div>
       </section>
 
-      {/* ---------- Internship Section ---------- */}
-      <section className="space-y-6">
-        <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight">
+      <section className="space-y-8">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">
+              Internship Records
+            </p>
+
+            <h2 className="text-3xl font-bold tracking-tight">
               Internship History
             </h2>
 
-            <p className="text-sm text-muted-foreground">
+            <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
               {internships.length} internship
               {internships.length !== 1 ? "s" : ""} associated with this
               student.
@@ -110,7 +127,7 @@ export default function StudentDetails({ data }: Props) {
         {internships.length === 0 ? (
           <EmptyInternships />
         ) : (
-          <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-6 lg:grid-cols-1">
             {internships.map((internship) => (
               <InternshipCard
                 key={internship.internshipId}

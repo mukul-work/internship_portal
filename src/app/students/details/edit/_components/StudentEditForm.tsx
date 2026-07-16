@@ -3,9 +3,9 @@
 import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "sonner";
+import { studentProfilePATCH } from "@/types/students/student.PATCH";
 
-import { studentProfileDTO } from "@/types/student-internship.dto";
-import { updateStudentDataForStudent } from "@/app/action/students.action";
+import { patchStudentProfileForStudentACTION } from "@/app/actions/students.action";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/select";
 
 interface Props {
-  initialData: studentProfileDTO;
+  initialData?: studentProfilePATCH;
 }
 
 export default function StudentEditForm({ initialData }: Props) {
@@ -38,13 +38,13 @@ export default function StudentEditForm({ initialData }: Props) {
     control,
     handleSubmit,
     formState: { isSubmitting, errors },
-  } = useForm<studentProfileDTO>({
+  } = useForm<studentProfilePATCH>({
     defaultValues: initialData,
   });
 
-  async function onSubmit(values: studentProfileDTO) {
+  async function onSubmit(values: studentProfilePATCH) {
     console.log("payload: ", values);
-    const response = await updateStudentDataForStudent(values);
+    const response = await patchStudentProfileForStudentACTION(values);
 
     if (response.success) {
       toast.success("Profile updated successfully");

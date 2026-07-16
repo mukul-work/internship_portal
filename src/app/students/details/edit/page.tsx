@@ -1,9 +1,9 @@
-import { fetchStudentProfileForStudent } from "@/app/data/students.service";
+import { getStudentProfileForStudentACTION } from "@/app/actions/students.action";
 import { StudentDataError } from "@/app/students/_components/error/StudentError";
 import StudentEditForm from "./_components/StudentEditForm";
 
 export default async function StudentProfileEditPage() {
-  const response = await fetchStudentProfileForStudent();
+  const response = await getStudentProfileForStudentACTION();
   if (!response.success) {
     return <StudentDataError />;
   }

@@ -3,8 +3,15 @@
 import { studentInternshipDTO } from "@/types/student-internship.dto";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { GraduationCap, Hash, Mail, Phone, School } from "lucide-react";
+
+import {
+  GraduationCap,
+  Hash,
+  Mail,
+  Phone,
+  School,
+  Sparkles,
+} from "lucide-react";
 
 interface Props {
   student: studentInternshipDTO;
@@ -18,69 +25,79 @@ export default function StudentProfile({ student }: Props) {
     .toUpperCase();
 
   return (
-    <section className="rounded-2xl border bg-card shadow-sm">
-      <div className="p-8">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          {/* Left */}
-          <div className="flex items-center gap-5">
-            <Avatar className="h-20 w-20 border">
-              <AvatarFallback className="text-2xl font-semibold">
-                {initials}
-              </AvatarFallback>
-            </Avatar>
+    <section className="relative overflow-hidden rounded-[32px] border bg-gradient-to-br from-amber-50 via-background to-orange-50 shadow-xl">
+      {/* Decorative Background */}
+      <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-amber-300/20 blur-3xl" />
+      <div className="absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-orange-200/20 blur-3xl" />
 
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-3">
-                <h1 className="text-3xl font-bold tracking-tight">
-                  {student.studentName}
-                </h1>
+      <div className="relative p-8 md:p-12">
+        <div className="flex flex-col gap-10 xl:flex-row xl:items-center xl:justify-between">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-center">
+            <div className="space-y-6">
+              <div className="space-y-3">
+                <div>
+                  <h1 className="text-4xl font-bold tracking-tight text-slate-900 md:text-5xl">
+                    {student.studentName}
+                  </h1>
 
-                <Badge variant="secondary">Student</Badge>
+                  <p className="mt-2 text-base text-muted-foreground">
+                    KIET Group of Institutions
+                  </p>
+                </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                <GraduationCap className="h-4 w-4" />
-                <span>Semester {student.studentSemester}</span>
+              <div className="flex flex-wrap gap-3">
+                <div className="flex items-center gap-2 rounded-full border bg-white px-4 py-2 shadow-sm">
+                  <GraduationCap className="h-4 w-4 text-amber-500" />
+                  <span className="text-sm font-medium">
+                    Semester {student.studentSemester}
+                  </span>
+                </div>
 
-                <Separator orientation="vertical" className="h-4" />
+                <div className="flex items-center gap-2 rounded-full border bg-white px-4 py-2 shadow-sm">
+                  <School className="h-4 w-4 text-blue-500" />
+                  <span className="text-sm font-medium">
+                    Section {student.studentSection}
+                  </span>
+                </div>
 
-                <School className="h-4 w-4" />
-                <span>Section {student.studentSection}</span>
-
-                <Separator orientation="vertical" className="h-4" />
-
-                <Hash className="h-4 w-4" />
-                <span>{student.studentUniversityRollNo}</span>
+                <div className="flex items-center gap-2 rounded-full border bg-white px-4 py-2 shadow-sm">
+                  <Hash className="h-4 w-4 text-emerald-500" />
+                  <span className="text-sm font-medium">
+                    {student.studentUniversityRollNo}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Right */}
-          <div className="grid gap-4 rounded-xl border bg-muted/40 p-5 sm:grid-cols-2">
-            <div className="flex items-start gap-3">
-              <Mail className="mt-0.5 h-5 w-5 text-muted-foreground" />
-
-              <div>
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                  Email
-                </p>
-
-                <p className="break-all text-sm font-medium">
-                  {student.studentEmail}
-                </p>
+          <div className="grid gap-5 md:grid-cols-2 xl:w-[500px]">
+            <div className="rounded-3xl border bg-white/90 p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100">
+                <Mail className="h-6 w-6 text-blue-600" />
               </div>
+
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Email Address
+              </p>
+
+              <p className="mt-3 break-all text-sm font-semibold leading-6 text-slate-900">
+                {student.studentEmail}
+              </p>
             </div>
 
-            <div className="flex items-start gap-3">
-              <Phone className="mt-0.5 h-5 w-5 text-muted-foreground" />
-
-              <div>
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                  Contact
-                </p>
-
-                <p className="text-sm font-medium">{student.studentContact}</p>
+            <div className="rounded-3xl border bg-white/90 p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100">
+                <Phone className="h-6 w-6 text-emerald-600" />
               </div>
+
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Contact Number
+              </p>
+
+              <p className="mt-3 text-sm font-semibold leading-6 text-slate-900">
+                {student.studentContact}
+              </p>
             </div>
           </div>
         </div>
